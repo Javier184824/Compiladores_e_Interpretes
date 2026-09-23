@@ -1,0 +1,4 @@
+begin
+    read(num1);
+    write(num1);
+end

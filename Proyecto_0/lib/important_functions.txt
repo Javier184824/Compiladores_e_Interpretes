@@ -1,0 +1,163 @@
+;--------------------------------------------------------------------------------------------------
+; Esta funcion se encarga de escribir texto en la consola
+; Entradas: rdi -> Direccion de memoria del texto
+;           rsi -> Cantidad de bytes a tomar del texto
+; Salidas:  rax -> Retorna la cantidad de bytes usados
+;               -> Si hubo un error retorna -1
+write:
+    ; Prologo
+    push rbp            ; Guardar rbp en el stack
+    mov rbp, rsp        ; Mover rsp a rbp
+
+    ; Parte principal
+    mov rdx, rsi        ; Cantidad de caracteres a escribir
+    mov rsi, rdi        ; Direccion de memoria del texto
+    mov rax, 1          ; 1 es el valor asignado para write
+    mov rdi, 1          ; Usar stdout como file_descriptor
+    syscall             ; Hacer la llamada a sistema write
+
+    ; Fin
+    pop rbp             ; Recuperar rbp del stack 
+    ret                 ; Regresar al punto en donde se llamo la funcion
+    
+;--------------------------------------------------------------------------------------------------
+; Esta funcion se encarga de recibir texto en la consola
+; Entradas: rdi -> Direccion de memoria para guardar el texto
+;           rsi -> Cantidad de bytes a tomar del texto
+; Salidas:  rax -> Retorna la cantidad de bytes usados
+;               -> Si hubo un error retorna -1
+read:
+    ; Prologo
+    push rbp            ; Guardar rbp en el stack
+    mov rbp, rsp        ; Mover rsp a rbp
+
+    ; Parte principal
+    mov rdx, rsi        ; Cantidad de caracteres a escribir
+    mov rsi, rdi        ; Direccion de memoria en donde guardar el texto
+    xor rax, rax        ; 0 es el valor asignado para read
+    xor rdi, rdi        ; Usar stdin como file_descriptor
+    syscall             ; Hacer la llamada a sistema write
+
+    ; Fin
+    pop rbp             ; Recuperar rbp del stack
+    ret                 ; Regresar al punto en donde se llamo la funcion
+
+; Entradas: rax -> Dirección de memoria a limpiar
+;           rdi -> Cantidad de bytes
+; Salidas:  Deja en cero todos los bytes de la dirección de memoria
+cleanAddress:
+    push rbp
+    push rbx
+    mov rbp, rsp
+    mov rbx, 0                  ; Índice
+.writeZeros:
+    cmp rbx, rdi
+    je .end
+    mov byte[rax + rbx], 0
+    inc rbx
+    jmp .writeZeros
+.end:
+    pop rbx
+    pop rbp
+    ret
+
+; Entradas: rax -> Dirección de memoria a guardar el número
+; Salidas:  rax -> Se guarda el número que se encontraba en la
+;           dirección de memoria
+atoi:
+    push rbp
+    push rbx                    ; Dirección de memoria
+    push rcx                    ; Índice
+    push r8                     ; Digito
+    push r9                     ; Indicar si el número es negativo
+    push r10                    ; Guarda el valor de 10
+    mov rbp, rsp
+    mov rbx, rax
+    mov rax, 0
+    mov rcx, 0
+    mov r8, 0
+    mov r9, 0
+    mov r10, 10
+    mov r8b, byte[rbx + rcx]
+    cmp r8b, 2Dh
+    je .isNegative
+    jmp .addDigits
+.isNegative:
+    mov r9, 1
+    inc rcx
+.addDigits:
+    mov r8b, byte[rbx + rcx]
+    cmp r8b, 0Ah
+    je .checkNegative
+    sub r8b, 30h
+    add rax, r8
+    inc rcx
+    mov r8b, byte[rbx + rcx]
+    cmp r8b, 0Ah
+    je .checkNegative
+.multiplyTen:
+    mul r10
+    jmp .addDigits
+.checkNegative:
+    cmp r9, 1
+    je .makeNegative
+    jmp .end
+.makeNegative:
+    neg rax
+.end:
+    pop r10
+    pop r9
+    pop r8
+    pop rcx
+    pop rbx
+    pop rbp
+    ret
+
+; Entradas: rax -> Dirección de memoria (de 51 bytes o menos) a escribir
+;           rdi -> Número entero
+;           rsi -> Base a convertir
+; Salidas:  Escribe el número entero en la dirección de memoria
+;           seleccionada
+tenToAnybase:
+    push rbp
+    push rbx                    ; Direccion de memoria
+    push rcx                    ; Índice para la dirección
+    push r8
+    mov rbp, rsp
+    mov rbx, rax
+    mov rcx, 49
+    mov rax, rdi                ; Mover el dividendo a rax
+    mov rdx, 0Ah
+    mov r8, 0            
+    mov byte[rbx + 50], dl      ; Guardar el valor de "\n" en el último byte
+    cmp rax, 0
+    jl .absoluteValue
+    jmp .extractDigits
+.absoluteValue:
+    neg rax
+    mov r8, 1
+.extractDigits:
+    cmp rax, rsi
+    jl .checkMinus
+    mov rdx, 0
+    div rsi                     ; Dividir entre la base
+    mov dl, byte[table + rdx]
+    mov byte[rbx + rcx], dl
+    dec rcx
+    jmp .extractDigits
+.checkMinus:
+    mov dl, byte[table + rax]
+    mov byte[rbx + rcx], dl
+    dec rcx
+    cmp r8, 1
+    je .writeMinus
+    jmp .end
+.writeMinus:
+    mov dl, 2Dh
+    mov byte[rbx + rcx], dl
+.end:
+    pop r8
+    pop rcx
+    pop rbx
+    pop rbp
+    ret

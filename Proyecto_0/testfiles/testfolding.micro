@@ -1,0 +1,10 @@
+begin
+    num1 := 10;
+    num2 := 5;
+
+    sum_answ := 4 + 6;
+    subs_answ := 10 - 5;
+    complex_answ := 10 - 5 - 2;
+
+    mixed_answ := num1 + 5;
+end

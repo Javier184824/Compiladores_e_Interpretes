@@ -1,0 +1,6 @@
+begin
+    -- leer dos numeros
+    read(num1, num2);
+    -- suma
+    sum_answ := 1 + 1;
+end

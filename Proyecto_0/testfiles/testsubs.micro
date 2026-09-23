@@ -1,0 +1,3 @@
+begin
+    sub_answ := 1 - 1;
+end
