@@ -4,6 +4,23 @@
 #include <unistd.h>
 #include "../headers/tokenizer.h"
 
+int preprocess(char *source_file_path, char *temp_output_file_path) {
+    FILE *fptr_source = fopen(source_file_path, "r");
+    FILE *fptr_temp_output = fopen(temp_output_file_path, "w");
+
+    if (fptr_source == NULL || fptr_temp_output == NULL) {
+        return 0;
+    }
+
+    /*
+    1. Quitar comentarios | comment_remover(...)
+    2. Resolver #defines | (Cambiar nombre de las funciones main de estos archivos)
+    3. Resolver includes | (Cambiar nombre de las funciones main de estos archivos)
+    */
+
+    return 1;
+}
+
 void limpiar_separadores(const char *origen, char *destino)
 {
     while (*origen != '\0') {
