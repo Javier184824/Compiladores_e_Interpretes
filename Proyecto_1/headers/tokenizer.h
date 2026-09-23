@@ -135,19 +135,38 @@ typedef enum {
     TOKEN_LEXICAL_ERROR
 } TokenCode;
 
+typedef enum {
+    ERROR,
+    PREPROCESS,
+    KEYWORD,
+    IDENTIFIER,
+    LITERAL,
+    STRING,
+    OPERATOR,
+    PUNCTUATOR
+} CategoriaToken;
+
 typedef struct {
     int codigo;
+    CategoriaToken categoria;
     char *lexema;
     long long valor_entero;
     long double valor_flotante;
+    int linea;
 } Token;
 
-static Token token_actual;
 extern char *yytext;
+extern int yylineno;
+extern FILE *yyin;
 extern int yylex (void);
 
+static Token token_actual;
+static int contador_tokens[7] = {0};
+static int total_tokens = 0;
+static FILE *source_code;
+
 Token Get_Token(void);
-void guardar_token(int codigo);
+void guardar_token(int codigo, CategoriaToken categoria);
 void limpiar_separadores(const char *origen, char *destino);
 long long convertir_entero(const char *lexema);
 

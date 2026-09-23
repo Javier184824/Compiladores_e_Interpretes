@@ -4,7 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 #include "../headers/tokenizer.h"
-#include "../headers/preprocessor.h"
 %}
 
 %option noyywrap
@@ -58,88 +57,88 @@ MULTILINE_COMMENT   "/*"([^*]|\*+[^*/])*\*+"/"
 
 %%
 
-{SYSTEM_INCLUDE} { guardar_token(TOKEN_SYSTEM_INCLUDE); return TOKEN_SYSTEM_INCLUDE; }
+{SYSTEM_INCLUDE} { guardar_token(TOKEN_SYSTEM_INCLUDE, PREPROCESS); return TOKEN_SYSTEM_INCLUDE; }
 
-{LOCAL_INCLUDE} { guardar_token(TOKEN_LOCAL_INCLUDE); return TOKEN_LOCAL_INCLUDE; }
+{LOCAL_INCLUDE} { guardar_token(TOKEN_LOCAL_INCLUDE, PREPROCESS); return TOKEN_LOCAL_INCLUDE; }
 
-{FUNCTION_MACRO} { guardar_token(FUNCTION_MACRO); return FUNCTION_MACRO; }
+{FUNCTION_MACRO} { guardar_token(FUNCTION_MACRO, PREPROCESS); return FUNCTION_MACRO; }
 
-{OBJECT_MACRO} { guardar_token(OBJECT_MACRO); return OBJECT_MACRO; }
+{OBJECT_MACRO} { guardar_token(OBJECT_MACRO, PREPROCESS); return OBJECT_MACRO; }
 
-{SINGLE_LINE_COMMENT} { guardar_token(SINGLE_LINE_COMMENT); return SINGLE_LINE_COMMENT; }
+{SINGLE_LINE_COMMENT} { guardar_token(SINGLE_LINE_COMMENT, PREPROCESS); return SINGLE_LINE_COMMENT; }
 
-{MULTILINE_COMMENT} { guardar_token(MULTILINE_COMMENT); return MULTILINE_COMMENT; }
+{MULTILINE_COMMENT} { guardar_token(MULTILINE_COMMENT, PREPROCESS); return MULTILINE_COMMENT; }
 
     /* Palabras reservadas */
-"auto"          { guardar_token(TOKEN_AUTO); return TOKEN_AUTO; }
-"break"         { guardar_token(TOKEN_BREAK); return TOKEN_BREAK; }
-"case"          { guardar_token(TOKEN_CASE); return TOKEN_CASE; }
-"char"          { guardar_token(TOKEN_CHAR_KEYWORD); return TOKEN_CHAR_KEYWORD; }
-"const"         { guardar_token(TOKEN_CONST); return TOKEN_CONST; }
-"continue"      { guardar_token(TOKEN_CONTINUE); return TOKEN_CONTINUE; }
-"default"       { guardar_token(TOKEN_DEFAULT); return TOKEN_DEFAULT; }
-"do"            { guardar_token(TOKEN_DO); return TOKEN_DO; }
-"double"        { guardar_token(TOKEN_DOUBLE_KEYWORD); return TOKEN_DOUBLE_KEYWORD; }
-"else"          { guardar_token(TOKEN_ELSE); return TOKEN_ELSE; }
-"enum"          { guardar_token(TOKEN_ENUM); return TOKEN_ENUM; }
-"extern"        { guardar_token(TOKEN_EXTERN); return TOKEN_EXTERN; }
-"float"         { guardar_token(TOKEN_FLOAT_KEYWORD); return TOKEN_FLOAT_KEYWORD; }
-"for"           { guardar_token(TOKEN_FOR); return TOKEN_FOR; }
-"goto"          { guardar_token(TOKEN_GOTO); return TOKEN_GOTO; }
-"if"            { guardar_token(TOKEN_IF); return TOKEN_IF; }
-"int"           { guardar_token(TOKEN_INT_KEYWORD); return TOKEN_INT_KEYWORD; }
-"long"          { guardar_token(TOKEN_LONG); return TOKEN_LONG; }
-"register"      { guardar_token(TOKEN_REGISTER); return TOKEN_REGISTER; }
-"return"        { guardar_token(TOKEN_RETURN); return TOKEN_RETURN; }
-"short"         { guardar_token(TOKEN_SHORT); return TOKEN_SHORT; }
-"signed"        { guardar_token(TOKEN_SIGNED); return TOKEN_SIGNED; }
-"sizeof"        { guardar_token(TOKEN_SIZEOF); return TOKEN_SIZEOF; }
-"static"        { guardar_token(TOKEN_STATIC); return TOKEN_STATIC; }
-"struct"        { guardar_token(TOKEN_STRUCT); return TOKEN_STRUCT; }
-"switch"        { guardar_token(TOKEN_SWITCH); return TOKEN_SWITCH; }
-"typedef"       { guardar_token(TOKEN_TYPEDEF); return TOKEN_TYPEDEF; }
-"union"         { guardar_token(TOKEN_UNION); return TOKEN_UNION; }
-"unsigned"      { guardar_token(TOKEN_UNSIGNED); return TOKEN_UNSIGNED; }
-"void"          { guardar_token(TOKEN_VOID); return TOKEN_VOID; }
-"volatile"      { guardar_token(TOKEN_VOLATILE); return TOKEN_VOLATILE; }
-"while"         { guardar_token(TOKEN_WHILE); return TOKEN_WHILE; }
+"auto"          { guardar_token(TOKEN_AUTO, KEYWORD); return TOKEN_AUTO; }
+"break"         { guardar_token(TOKEN_BREAK, KEYWORD); return TOKEN_BREAK; }
+"case"          { guardar_token(TOKEN_CASE, KEYWORD); return TOKEN_CASE; }
+"char"          { guardar_token(TOKEN_CHAR_KEYWORD, KEYWORD); return TOKEN_CHAR_KEYWORD; }
+"const"         { guardar_token(TOKEN_CONST, KEYWORD); return TOKEN_CONST; }
+"continue"      { guardar_token(TOKEN_CONTINUE, KEYWORD); return TOKEN_CONTINUE; }
+"default"       { guardar_token(TOKEN_DEFAULT, KEYWORD); return TOKEN_DEFAULT; }
+"do"            { guardar_token(TOKEN_DO, KEYWORD); return TOKEN_DO; }
+"double"        { guardar_token(TOKEN_DOUBLE_KEYWORD, KEYWORD); return TOKEN_DOUBLE_KEYWORD; }
+"else"          { guardar_token(TOKEN_ELSE, KEYWORD); return TOKEN_ELSE; }
+"enum"          { guardar_token(TOKEN_ENUM, KEYWORD); return TOKEN_ENUM; }
+"extern"        { guardar_token(TOKEN_EXTERN, KEYWORD); return TOKEN_EXTERN; }
+"float"         { guardar_token(TOKEN_FLOAT_KEYWORD, KEYWORD); return TOKEN_FLOAT_KEYWORD; }
+"for"           { guardar_token(TOKEN_FOR, KEYWORD); return TOKEN_FOR; }
+"goto"          { guardar_token(TOKEN_GOTO, KEYWORD); return TOKEN_GOTO; }
+"if"            { guardar_token(TOKEN_IF, KEYWORD); return TOKEN_IF; }
+"int"           { guardar_token(TOKEN_INT_KEYWORD, KEYWORD); return TOKEN_INT_KEYWORD; }
+"long"          { guardar_token(TOKEN_LONG, KEYWORD); return TOKEN_LONG; }
+"register"      { guardar_token(TOKEN_REGISTER, KEYWORD); return TOKEN_REGISTER; }
+"return"        { guardar_token(TOKEN_RETURN, KEYWORD); return TOKEN_RETURN; }
+"short"         { guardar_token(TOKEN_SHORT, KEYWORD); return TOKEN_SHORT; }
+"signed"        { guardar_token(TOKEN_SIGNED, KEYWORD); return TOKEN_SIGNED; }
+"sizeof"        { guardar_token(TOKEN_SIZEOF, KEYWORD); return TOKEN_SIZEOF; }
+"static"        { guardar_token(TOKEN_STATIC, KEYWORD); return TOKEN_STATIC; }
+"struct"        { guardar_token(TOKEN_STRUCT, KEYWORD); return TOKEN_STRUCT; }
+"switch"        { guardar_token(TOKEN_SWITCH, KEYWORD); return TOKEN_SWITCH; }
+"typedef"       { guardar_token(TOKEN_TYPEDEF, KEYWORD); return TOKEN_TYPEDEF; }
+"union"         { guardar_token(TOKEN_UNION, KEYWORD); return TOKEN_UNION; }
+"unsigned"      { guardar_token(TOKEN_UNSIGNED, KEYWORD); return TOKEN_UNSIGNED; }
+"void"          { guardar_token(TOKEN_VOID, KEYWORD); return TOKEN_VOID; }
+"volatile"      { guardar_token(TOKEN_VOLATILE, KEYWORD); return TOKEN_VOLATILE; }
+"while"         { guardar_token(TOKEN_WHILE, KEYWORD); return TOKEN_WHILE; }
 
     /* Palabras reservadas adicionales */
-"asm"           { guardar_token(TOKEN_ASM); return TOKEN_ASM; }
-"fortran"       { guardar_token(TOKEN_FORTRAN); return TOKEN_FORTRAN; }
-"inline"        { guardar_token(TOKEN_INLINE); return TOKEN_INLINE; }
-"restrict"      { guardar_token(TOKEN_RESTRICT); return TOKEN_RESTRICT; }
-"_Bool"         { guardar_token(TOKEN_BOOL_KEYWORD); return TOKEN_BOOL_KEYWORD; }
-"_Complex"      { guardar_token(TOKEN_COMPLEX); return TOKEN_COMPLEX; }
-"_Imaginary"    { guardar_token(TOKEN_IMAGINARY); return TOKEN_IMAGINARY; }
-"_Alignas"      { guardar_token(TOKEN_ALIGNAS); return TOKEN_ALIGNAS; }
-"_Alignof"      { guardar_token(TOKEN_ALIGNOF); return TOKEN_ALIGNOF; }
-"_Atomic"       { guardar_token(TOKEN_ATOMIC); return TOKEN_ATOMIC; }
-"_Generic"      { guardar_token(TOKEN_GENERIC); return TOKEN_GENERIC; }
-"_Noreturn"     { guardar_token(TOKEN_NORETURN); return TOKEN_NORETURN; }
-"_Static_assert" { guardar_token(TOKEN_STATIC_ASSERT); return TOKEN_STATIC_ASSERT; }
-"_Thread_local" { guardar_token(TOKEN_THREAD_LOCAL); return TOKEN_THREAD_LOCAL; }
-"alignas"       { guardar_token(TOKEN_ALIGNAS); return TOKEN_ALIGNAS; }
-"alignof"       { guardar_token(TOKEN_ALIGNOF); return TOKEN_ALIGNOF; }
-"bool"          { guardar_token(TOKEN_BOOL_KEYWORD); return TOKEN_BOOL_KEYWORD; }
-"constexpr"     { guardar_token(TOKEN_CONSTEXPR); return TOKEN_CONSTEXPR; }
-"false"         { guardar_token(TOKEN_FALSE); return TOKEN_FALSE; }
-"nullptr"       { guardar_token(TOKEN_NULLPTR); return TOKEN_NULLPTR; }
-"static_assert" { guardar_token(TOKEN_STATIC_ASSERT); return TOKEN_STATIC_ASSERT; }
-"thread_local"  { guardar_token(TOKEN_THREAD_LOCAL); return TOKEN_THREAD_LOCAL; }
-"true"          { guardar_token(TOKEN_TRUE); return TOKEN_TRUE; }
-"typeof"        { guardar_token(TOKEN_TYPEOF); return TOKEN_TYPEOF; }
-"typeof_unqual" { guardar_token(TOKEN_TYPEOF_UNQUAL); return TOKEN_TYPEOF_UNQUAL; }
-"_BitInt"       { guardar_token(TOKEN_BITINT); return TOKEN_BITINT; }
-"_Decimal32"    { guardar_token(TOKEN_DECIMAL32); return TOKEN_DECIMAL32; }
-"_Decimal64"    { guardar_token(TOKEN_DECIMAL64); return TOKEN_DECIMAL64; }
-"_Decimal128"   { guardar_token(TOKEN_DECIMAL128); return TOKEN_DECIMAL128; }
+"asm"           { guardar_token(TOKEN_ASM, KEYWORD); return TOKEN_ASM; }
+"fortran"       { guardar_token(TOKEN_FORTRAN, KEYWORD); return TOKEN_FORTRAN; }
+"inline"        { guardar_token(TOKEN_INLINE, KEYWORD); return TOKEN_INLINE; }
+"restrict"      { guardar_token(TOKEN_RESTRICT, KEYWORD); return TOKEN_RESTRICT; }
+"_Bool"         { guardar_token(TOKEN_BOOL_KEYWORD, KEYWORD); return TOKEN_BOOL_KEYWORD; }
+"_Complex"      { guardar_token(TOKEN_COMPLEX, KEYWORD); return TOKEN_COMPLEX; }
+"_Imaginary"    { guardar_token(TOKEN_IMAGINARY, KEYWORD); return TOKEN_IMAGINARY; }
+"_Alignas"      { guardar_token(TOKEN_ALIGNAS, KEYWORD); return TOKEN_ALIGNAS; }
+"_Alignof"      { guardar_token(TOKEN_ALIGNOF, KEYWORD); return TOKEN_ALIGNOF; }
+"_Atomic"       { guardar_token(TOKEN_ATOMIC, KEYWORD); return TOKEN_ATOMIC; }
+"_Generic"      { guardar_token(TOKEN_GENERIC, KEYWORD); return TOKEN_GENERIC; }
+"_Noreturn"     { guardar_token(TOKEN_NORETURN, KEYWORD); return TOKEN_NORETURN; }
+"_Static_assert" { guardar_token(TOKEN_STATIC_ASSERT, KEYWORD); return TOKEN_STATIC_ASSERT; }
+"_Thread_local" { guardar_token(TOKEN_THREAD_LOCAL, KEYWORD); return TOKEN_THREAD_LOCAL; }
+"alignas"       { guardar_token(TOKEN_ALIGNAS, KEYWORD); return TOKEN_ALIGNAS; }
+"alignof"       { guardar_token(TOKEN_ALIGNOF, KEYWORD); return TOKEN_ALIGNOF; }
+"bool"          { guardar_token(TOKEN_BOOL_KEYWORD, KEYWORD); return TOKEN_BOOL_KEYWORD; }
+"constexpr"     { guardar_token(TOKEN_CONSTEXPR, KEYWORD); return TOKEN_CONSTEXPR; }
+"false"         { guardar_token(TOKEN_FALSE, KEYWORD); return TOKEN_FALSE; }
+"nullptr"       { guardar_token(TOKEN_NULLPTR, KEYWORD); return TOKEN_NULLPTR; }
+"static_assert" { guardar_token(TOKEN_STATIC_ASSERT, KEYWORD); return TOKEN_STATIC_ASSERT; }
+"thread_local"  { guardar_token(TOKEN_THREAD_LOCAL, KEYWORD); return TOKEN_THREAD_LOCAL; }
+"true"          { guardar_token(TOKEN_TRUE, KEYWORD); return TOKEN_TRUE; }
+"typeof"        { guardar_token(TOKEN_TYPEOF, KEYWORD); return TOKEN_TYPEOF; }
+"typeof_unqual" { guardar_token(TOKEN_TYPEOF_UNQUAL, KEYWORD); return TOKEN_TYPEOF_UNQUAL; }
+"_BitInt"       { guardar_token(TOKEN_BITINT, KEYWORD); return TOKEN_BITINT; }
+"_Decimal32"    { guardar_token(TOKEN_DECIMAL32, KEYWORD); return TOKEN_DECIMAL32; }
+"_Decimal64"    { guardar_token(TOKEN_DECIMAL64, KEYWORD); return TOKEN_DECIMAL64; }
+"_Decimal128"   { guardar_token(TOKEN_DECIMAL128, KEYWORD); return TOKEN_DECIMAL128; }
 
     /* Literales e identificadores */
 {FLOTANTE} {
     char numero_limpio[strlen(yytext) + 1];
 
-    guardar_token(TOKEN_FLOAT);
+    guardar_token(TOKEN_FLOAT, LITERAL);
     limpiar_separadores(yytext, numero_limpio);
     token_actual.valor_flotante = strtold(numero_limpio, NULL);
 
@@ -147,81 +146,86 @@ MULTILINE_COMMENT   "/*"([^*]|\*+[^*/])*\*+"/"
 }
 
 {ENTERO} {
-    guardar_token(TOKEN_INTEGER);
+    guardar_token(TOKEN_INTEGER, LITERAL);
     token_actual.valor_entero = convertir_entero(yytext);
 
     return TOKEN_INTEGER;
 }
 
-{CARACTER}      { guardar_token(TOKEN_CHARACTER); return TOKEN_CHARACTER; }
-{STRING}        { guardar_token(TOKEN_STRING); return TOKEN_STRING; }
-{ID}            { guardar_token(TOKEN_ID); return TOKEN_ID; }
+{CARACTER}      { guardar_token(TOKEN_CHARACTER, LITERAL); return TOKEN_CHARACTER; }
+{STRING}        { guardar_token(TOKEN_STRING, STRING); return TOKEN_STRING; }
+{ID}            { guardar_token(TOKEN_ID, IDENTIFIER); return TOKEN_ID; }
 
     /* Operadores */
-"&&"            { guardar_token(TOKEN_LOGICAL_AND); return TOKEN_LOGICAL_AND; }
-"||"            { guardar_token(TOKEN_LOGICAL_OR); return TOKEN_LOGICAL_OR; }
-"&"             { guardar_token(TOKEN_BITWISE_AND); return TOKEN_BITWISE_AND; }
-"|"             { guardar_token(TOKEN_BITWISE_OR); return TOKEN_BITWISE_OR; }
-"^"             { guardar_token(TOKEN_BITWISE_XOR); return TOKEN_BITWISE_XOR; }
-"~"             { guardar_token(TOKEN_BITWISE_NOT); return TOKEN_BITWISE_NOT; }
-"!"             { guardar_token(TOKEN_NOT); return TOKEN_NOT; }
-"++"            { guardar_token(TOKEN_INCREMENT); return TOKEN_INCREMENT; }
-"--"            { guardar_token(TOKEN_DECREMENT); return TOKEN_DECREMENT; }
-"+"             { guardar_token(TOKEN_PLUS); return TOKEN_PLUS; }
-"-"             { guardar_token(TOKEN_MINUS); return TOKEN_MINUS; }
-"*"             { guardar_token(TOKEN_MULT); return TOKEN_MULT; }
-"/"             { guardar_token(TOKEN_DIV); return TOKEN_DIV; }
-"%"             { guardar_token(TOKEN_MOD); return TOKEN_MOD; }
-"=="            { guardar_token(TOKEN_EQUAL); return TOKEN_EQUAL; }
-"!="            { guardar_token(TOKEN_DIFFERENT); return TOKEN_DIFFERENT; }
-"<="            { guardar_token(TOKEN_LESS_EQUAL); return TOKEN_LESS_EQUAL; }
-">="            { guardar_token(TOKEN_GREATER_EQUAL); return TOKEN_GREATER_EQUAL; }
-"<"             { guardar_token(TOKEN_LESS); return TOKEN_LESS; }
-">"             { guardar_token(TOKEN_GREATER); return TOKEN_GREATER; }
-"="             { guardar_token(TOKEN_ASSIGN); return TOKEN_ASSIGN; }
-"+="            { guardar_token(TOKEN_PLUS_ASSIGN); return TOKEN_PLUS_ASSIGN; }
-"-="            { guardar_token(TOKEN_MINUS_ASSIGN); return TOKEN_MINUS_ASSIGN; }
-"*="            { guardar_token(TOKEN_MULT_ASSIGN); return TOKEN_MULT_ASSIGN; }
-"/="            { guardar_token(TOKEN_DIV_ASSIGN); return TOKEN_DIV_ASSIGN; }
-"%="            { guardar_token(TOKEN_MOD_ASSIGN); return TOKEN_MOD_ASSIGN; }
-"&="            { guardar_token(TOKEN_AND_ASSIGN); return TOKEN_AND_ASSIGN; }
-"|="            { guardar_token(TOKEN_OR_ASSIGN); return TOKEN_OR_ASSIGN; }
-"^="            { guardar_token(TOKEN_XOR_ASSIGN); return TOKEN_XOR_ASSIGN; }
-"<<="           { guardar_token(TOKEN_LEFT_SHIFT_ASSIGN); return TOKEN_LEFT_SHIFT_ASSIGN; }
-">>="           { guardar_token(TOKEN_RIGHT_SHIFT_ASSIGN); return TOKEN_RIGHT_SHIFT_ASSIGN; }
-"<<"            { guardar_token(TOKEN_LEFT_SHIFT); return TOKEN_LEFT_SHIFT; }
-">>"            { guardar_token(TOKEN_RIGHT_SHIFT); return TOKEN_RIGHT_SHIFT; }
+"&&"            { guardar_token(TOKEN_LOGICAL_AND, OPERATOR); return TOKEN_LOGICAL_AND; }
+"||"            { guardar_token(TOKEN_LOGICAL_OR, OPERATOR); return TOKEN_LOGICAL_OR; }
+"&"             { guardar_token(TOKEN_BITWISE_AND, OPERATOR); return TOKEN_BITWISE_AND; }
+"|"             { guardar_token(TOKEN_BITWISE_OR, OPERATOR); return TOKEN_BITWISE_OR; }
+"^"             { guardar_token(TOKEN_BITWISE_XOR, OPERATOR); return TOKEN_BITWISE_XOR; }
+"~"             { guardar_token(TOKEN_BITWISE_NOT, OPERATOR); return TOKEN_BITWISE_NOT; }
+"!"             { guardar_token(TOKEN_NOT, OPERATOR); return TOKEN_NOT; }
+"++"            { guardar_token(TOKEN_INCREMENT, OPERATOR); return TOKEN_INCREMENT; }
+"--"            { guardar_token(TOKEN_DECREMENT, OPERATOR); return TOKEN_DECREMENT; }
+"+"             { guardar_token(TOKEN_PLUS, OPERATOR); return TOKEN_PLUS; }
+"-"             { guardar_token(TOKEN_MINUS, OPERATOR); return TOKEN_MINUS; }
+"*"             { guardar_token(TOKEN_MULT, OPERATOR); return TOKEN_MULT; }
+"/"             { guardar_token(TOKEN_DIV, OPERATOR); return TOKEN_DIV; }
+"%"             { guardar_token(TOKEN_MOD, OPERATOR); return TOKEN_MOD; }
+"=="            { guardar_token(TOKEN_EQUAL, OPERATOR); return TOKEN_EQUAL; }
+"!="            { guardar_token(TOKEN_DIFFERENT, OPERATOR); return TOKEN_DIFFERENT; }
+"<="            { guardar_token(TOKEN_LESS_EQUAL, OPERATOR); return TOKEN_LESS_EQUAL; }
+">="            { guardar_token(TOKEN_GREATER_EQUAL, OPERATOR); return TOKEN_GREATER_EQUAL; }
+"<"             { guardar_token(TOKEN_LESS, OPERATOR); return TOKEN_LESS; }
+">"             { guardar_token(TOKEN_GREATER, OPERATOR); return TOKEN_GREATER; }
+"="             { guardar_token(TOKEN_ASSIGN, OPERATOR); return TOKEN_ASSIGN; }
+"+="            { guardar_token(TOKEN_PLUS_ASSIGN, OPERATOR); return TOKEN_PLUS_ASSIGN; }
+"-="            { guardar_token(TOKEN_MINUS_ASSIGN, OPERATOR); return TOKEN_MINUS_ASSIGN; }
+"*="            { guardar_token(TOKEN_MULT_ASSIGN, OPERATOR); return TOKEN_MULT_ASSIGN; }
+"/="            { guardar_token(TOKEN_DIV_ASSIGN, OPERATOR); return TOKEN_DIV_ASSIGN; }
+"%="            { guardar_token(TOKEN_MOD_ASSIGN, OPERATOR); return TOKEN_MOD_ASSIGN; }
+"&="            { guardar_token(TOKEN_AND_ASSIGN, OPERATOR); return TOKEN_AND_ASSIGN; }
+"|="            { guardar_token(TOKEN_OR_ASSIGN, OPERATOR); return TOKEN_OR_ASSIGN; }
+"^="            { guardar_token(TOKEN_XOR_ASSIGN, OPERATOR); return TOKEN_XOR_ASSIGN; }
+"<<="           { guardar_token(TOKEN_LEFT_SHIFT_ASSIGN, OPERATOR); return TOKEN_LEFT_SHIFT_ASSIGN; }
+">>="           { guardar_token(TOKEN_RIGHT_SHIFT_ASSIGN, OPERATOR); return TOKEN_RIGHT_SHIFT_ASSIGN; }
+"<<"            { guardar_token(TOKEN_LEFT_SHIFT, OPERATOR); return TOKEN_LEFT_SHIFT; }
+">>"            { guardar_token(TOKEN_RIGHT_SHIFT, OPERATOR); return TOKEN_RIGHT_SHIFT; }
 
     /* Puntuadores */
-"("             { guardar_token(TOKEN_LEFT_PAREN); return TOKEN_LEFT_PAREN; }
-")"             { guardar_token(TOKEN_RIGHT_PAREN); return TOKEN_RIGHT_PAREN; }
-"{"             { guardar_token(TOKEN_LEFT_CURLY); return TOKEN_LEFT_CURLY; }
-"}"             { guardar_token(TOKEN_RIGHT_CURLY); return TOKEN_RIGHT_CURLY; }
-"["             { guardar_token(TOKEN_LEFT_SQUARE); return TOKEN_LEFT_SQUARE; }
-"]"             { guardar_token(TOKEN_RIGHT_SQUARE); return TOKEN_RIGHT_SQUARE; }
-"->"            { guardar_token(TOKEN_ARROW); return TOKEN_ARROW; }
-"?"             { guardar_token(TOKEN_QUESTION); return TOKEN_QUESTION; }
-"::"            { guardar_token(TOKEN_DOUBLE_COLON); return TOKEN_DOUBLE_COLON; }
-":"             { guardar_token(TOKEN_COLON); return TOKEN_COLON; }
-"..."           { guardar_token(TOKEN_ELLIPSIS); return TOKEN_ELLIPSIS; }
-"."             { guardar_token(TOKEN_PERIOD); return TOKEN_PERIOD; }
-","             { guardar_token(TOKEN_COMMA); return TOKEN_COMMA; }
-";"             { guardar_token(TOKEN_SEMICOLON); return TOKEN_SEMICOLON; }
-"##"            { guardar_token(TOKEN_DOUBLE_HASH); return TOKEN_DOUBLE_HASH; }
-"#"             { guardar_token(TOKEN_HASH); return TOKEN_HASH; }
+"("             { guardar_token(TOKEN_LEFT_PAREN, PUNCTUATOR); return TOKEN_LEFT_PAREN; }
+")"             { guardar_token(TOKEN_RIGHT_PAREN, PUNCTUATOR); return TOKEN_RIGHT_PAREN; }
+"{"             { guardar_token(TOKEN_LEFT_CURLY, PUNCTUATOR); return TOKEN_LEFT_CURLY; }
+"}"             { guardar_token(TOKEN_RIGHT_CURLY, PUNCTUATOR); return TOKEN_RIGHT_CURLY; }
+"["             { guardar_token(TOKEN_LEFT_SQUARE, PUNCTUATOR); return TOKEN_LEFT_SQUARE; }
+"]"             { guardar_token(TOKEN_RIGHT_SQUARE, PUNCTUATOR); return TOKEN_RIGHT_SQUARE; }
+"->"            { guardar_token(TOKEN_ARROW, PUNCTUATOR); return TOKEN_ARROW; }
+"?"             { guardar_token(TOKEN_QUESTION, PUNCTUATOR); return TOKEN_QUESTION; }
+"::"            { guardar_token(TOKEN_DOUBLE_COLON, PUNCTUATOR); return TOKEN_DOUBLE_COLON; }
+":"             { guardar_token(TOKEN_COLON, PUNCTUATOR); return TOKEN_COLON; }
+"..."           { guardar_token(TOKEN_ELLIPSIS, PUNCTUATOR); return TOKEN_ELLIPSIS; }
+"."             { guardar_token(TOKEN_PERIOD, PUNCTUATOR); return TOKEN_PERIOD; }
+","             { guardar_token(TOKEN_COMMA, PUNCTUATOR); return TOKEN_COMMA; }
+";"             { guardar_token(TOKEN_SEMICOLON, PUNCTUATOR); return TOKEN_SEMICOLON; }
+"##"            { guardar_token(TOKEN_DOUBLE_HASH, PUNCTUATOR); return TOKEN_DOUBLE_HASH; }
+"#"             { guardar_token(TOKEN_HASH, PUNCTUATOR); return TOKEN_HASH; }
 
     /* Digraphs: devuelven el mismo token que el puntuador equivalente. */
-"<%"            { guardar_token(TOKEN_LEFT_CURLY); return TOKEN_LEFT_CURLY; }
-"%>"            { guardar_token(TOKEN_RIGHT_CURLY); return TOKEN_RIGHT_CURLY; }
-"<:"            { guardar_token(TOKEN_LEFT_SQUARE); return TOKEN_LEFT_SQUARE; }
-":>"            { guardar_token(TOKEN_RIGHT_SQUARE); return TOKEN_RIGHT_SQUARE; }
-"%:%:"          { guardar_token(TOKEN_DOUBLE_HASH); return TOKEN_DOUBLE_HASH; }
-"%:"            { guardar_token(TOKEN_HASH); return TOKEN_HASH; }
+"<%"            { guardar_token(TOKEN_LEFT_CURLY, PUNCTUATOR); return TOKEN_LEFT_CURLY; }
+"%>"            { guardar_token(TOKEN_RIGHT_CURLY, PUNCTUATOR); return TOKEN_RIGHT_CURLY; }
+"<:"            { guardar_token(TOKEN_LEFT_SQUARE, PUNCTUATOR); return TOKEN_LEFT_SQUARE; }
+":>"            { guardar_token(TOKEN_RIGHT_SQUARE, PUNCTUATOR); return TOKEN_RIGHT_SQUARE; }
+"%:%:"          { guardar_token(TOKEN_DOUBLE_HASH, PUNCTUATOR); return TOKEN_DOUBLE_HASH; }
+"%:"            { guardar_token(TOKEN_HASH, PUNCTUATOR); return TOKEN_HASH; }
 
-[ \t\r\n\v\f]+  { /* Ignorar whitespace. */ }
+[ ]+ { fprintf(source_code, "%s", yytext); }
+\t  { fprintf(source_code, "\t"); }
+\r  { fprintf(source_code, "\r"); }
+\v  { fprintf(source_code, "\v"); }
+\f  { fprintf(source_code, "\f"); }
+\n  { fprintf(source_code, "\n"); }
 
 . {
-    guardar_token(TOKEN_LEXICAL_ERROR);
+    guardar_token(TOKEN_LEXICAL_ERROR, ERROR);
     return TOKEN_LEXICAL_ERROR;
 }
 

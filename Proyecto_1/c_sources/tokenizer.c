@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "../headers/tokenizer.h"
 
 void limpiar_separadores(const char *origen, char *destino)
@@ -31,9 +32,10 @@ long long convertir_entero(const char *lexema)
     return strtoll(numero_limpio, NULL, 0);
 }
 
-void guardar_token(int codigo)
+void guardar_token(int codigo, CategoriaToken categoria)
 {
     token_actual.codigo = codigo;
+    token_actual.categoria = categoria;
 
     if (token_actual.lexema != NULL) {
         free(token_actual.lexema);
@@ -50,6 +52,10 @@ void guardar_token(int codigo)
 
     token_actual.valor_entero = 0;
     token_actual.valor_flotante = 0.0;
+    token_actual.linea = yylineno;
+
+    contador_tokens[categoria]++;
+    if (categoria != ERROR) total_tokens++;
 }
 
 Token Get_Token(void)
@@ -68,4 +74,167 @@ Token Get_Token(void)
     }
 
     return token_actual;
+}
+
+
+int main(int argc, char *argv[])
+{
+    if (argc < 2) {
+        fprintf(stderr, "Uso: %s <archivo_fuente>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    /* Crear archivo temporal */
+    char nombre_temporal[] = "/tmp/preprocesadoXXXXXX";
+
+    int fd = mkstemp(nombre_temporal);
+
+    if (fd == -1) {
+        perror("Error creando archivo temporal");
+        return EXIT_FAILURE;
+    }
+
+    close(fd);
+
+    // ====== PARA PRUEBAS ======== -- lun
+    /* FASE 1: Preprocesamiento 
+    if (!preprocess(argv[1], nombre_temporal)) {
+        fprintf(stderr, "Error durante el preprocesamiento\n");
+        return EXIT_FAILURE;
+    }
+
+    /* FASE 2: Abrir resultado del preprocesamiento 
+    FILE *archivo_preprocesado = fopen(nombre_temporal, "r");
+
+    if (archivo_preprocesado == NULL) {
+        perror("Error abriendo archivo preprocesado");
+        return EXIT_FAILURE;
+    }
+
+    yyin = archivo_preprocesado;
+	*/
+
+	FILE *archivo_preprocesado = fopen("archivo_preprocesado.c", "r");
+
+    if (archivo_preprocesado == NULL) {
+        perror("Error abriendo archivo preprocesado");
+        return EXIT_FAILURE;
+    }
+
+    yyin = archivo_preprocesado;
+	// ====== fin PRUEBAS ======== -- lun
+
+    source_code = fopen("source_code.tex", "w");
+
+    if (source_code == NULL) {
+        perror("Error creando source_code.tex");
+        fclose(archivo_preprocesado);
+        return EXIT_FAILURE;
+    }
+
+    //borrar - lun
+    fprintf(source_code, "\\begin{frame}[fragile]{Código fuente}\n");
+    fprintf(source_code, "\\begin{verbatim}\n");
+
+    /* FASE 3: Obtener los tokens uno por uno */
+    Token token;
+
+    do {
+        token = Get_Token();
+
+        if (token.codigo != TOKEN_EOF) {
+            
+            fprintf(source_code, "%s", token.lexema);
+
+            printf(
+				"linea=%d, codigo=%d, lexema=%s",
+				token.linea,
+				token.codigo,
+				token.lexema
+			);
+
+            if (token.codigo == TOKEN_INTEGER) {
+                printf(", valor=%lld", token.valor_entero);
+            }
+
+            if (token.codigo == TOKEN_FLOAT) {
+                printf(", valor=%Lf", token.valor_flotante);
+            }
+
+            printf("\n");
+        }
+
+    } while (token.codigo != TOKEN_EOF);
+
+    fclose(archivo_preprocesado);
+    
+    //borrar !! -- lun
+    fprintf(source_code, "\\end{verbatim}\n");
+    fprintf(source_code, "\\end{frame}\n");
+
+    printf(
+        "Archivo preprocesado: %s\n",
+        nombre_temporal
+    );
+
+
+    FILE *stats = fopen("token_stats.dat", "w");
+
+    if (stats == NULL) {
+        perror("Error creando token_stats.dat");
+        return EXIT_FAILURE;
+    }
+
+    fprintf(stats, "Category Quantity\n");
+    fprintf(stats, "Keyword %d\n", contador_tokens[KEYWORD]);
+    fprintf(stats, "Identifier %d\n", contador_tokens[IDENTIFIER]);
+    fprintf(stats, "Literal %d\n", contador_tokens[LITERAL]);
+    fprintf(stats, "String %d\n", contador_tokens[STRING]);
+    fprintf(stats, "Operator %d\n", contador_tokens[OPERATOR]);
+    fprintf(stats, "Punctuator %d\n", contador_tokens[PUNCTUATOR]);
+
+    fclose(stats);
+
+
+    FILE *stats2 = fopen("pie_chart.tex", "w");
+
+    if (stats2 == NULL) {
+        perror("Error creando pie_chart.tex");
+        return EXIT_FAILURE;
+    }
+
+    fprintf(stats2, 
+        "\\begin{tikzpicture}[scale=0.8]\n"
+        "\t\\pie[\n"
+        "\t\ttext=legend,\n" 
+        "\t\tbefore number=,\n" 
+        "\t\tafter number=\\%%\n"
+        "\t]{\n"
+    );
+
+    if (contador_tokens[KEYWORD] > 0)
+        fprintf(stats2, "\t\t%.2f/Keyword,\n", 100.0 * contador_tokens[KEYWORD] / total_tokens);
+
+    if (contador_tokens[IDENTIFIER] > 0)
+        fprintf(stats2, "\t\t%.2f/Identifier,\n", 100.0 * contador_tokens[IDENTIFIER] / total_tokens);
+
+    if (contador_tokens[LITERAL] > 0)
+        fprintf(stats2, "\t\t%.2f/Literal,\n", 100.0 * contador_tokens[LITERAL] / total_tokens);
+
+    if (contador_tokens[STRING] > 0)
+        fprintf(stats2, "\t\t%.2f/String,\n", 100.0 * contador_tokens[STRING] / total_tokens);
+
+    if (contador_tokens[OPERATOR] > 0)
+        fprintf(stats2, "\t\t%.2f/Operator,\n", 100.0 * contador_tokens[OPERATOR] / total_tokens);
+
+    if (contador_tokens[PUNCTUATOR] > 0)
+        fprintf(stats2, "\t\t%.2f/Punctuator\n", 100.0 * contador_tokens[PUNCTUATOR] / total_tokens);
+
+    fprintf(stats2, "\t}\n");
+    fprintf(stats2, "\\end{tikzpicture}\n");
+
+
+    fclose(stats2);
+
+    return EXIT_SUCCESS;
 }
