@@ -43,7 +43,7 @@
 
 #define _POSIX_C_SOURCE 200809L  /* for strdup() under strict C99 */
 
-#include "define_preprocessor.h"
+#include "../headers/define_preprocessor.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -417,13 +417,41 @@ void process(const char *content, size_t len, StrBuf *out) {
     dt_free(&dt);
 }
 
+int solve_defines(const char *input_file, const char* output_file) {
+    if (!input_file) {
+        return EXIT_FAILURE;
+    }
+
+    size_t len;
+    char *content = read_whole_file(input_file, &len);
+
+    StrBuf out;
+    sb_init(&out);
+    process(content, len, &out);
+
+    FILE *f = stdout;
+    if (output_file) {
+        f = fopen(output_file, "w");
+        if (!f) {
+            fprintf(stderr, "error: could not open output file '%s'\n", output_file);
+            return EXIT_FAILURE;
+        }
+    }
+    fwrite(out.data, 1, out.len, f);
+    if (f != stdout) fclose(f);
+
+    sb_free(&out);
+    free(content);
+}
+
+#if 0
 void usage(const char *prog) {
     fprintf(stderr, "usage: %s <input_file> [-o output_file]\n", prog);
 }
 
+
 int main(int argc, char **argv) {
     if (argc < 2) {
-        usage(argv[0]);
         return EXIT_FAILURE;
     }
 
@@ -437,13 +465,11 @@ int main(int argc, char **argv) {
         } else if (!input_file) {
             input_file = argv[i];
         } else {
-            usage(argv[0]);
             return EXIT_FAILURE;
         }
     }
 
     if (!input_file) {
-        usage(argv[0]);
         return EXIT_FAILURE;
     }
 
@@ -469,3 +495,4 @@ int main(int argc, char **argv) {
     free(content);
     return EXIT_SUCCESS;
 }
+#endif

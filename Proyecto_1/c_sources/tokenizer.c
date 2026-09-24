@@ -3,20 +3,61 @@
 #include <string.h>
 #include <unistd.h>
 #include "../headers/tokenizer.h"
+#include "../headers/define_preprocessor.h"
+#include "../headers/include_preprocessor.h"
 
-int preprocess(char *source_file_path, char *temp_output_file_path) {
-    FILE *fptr_source = fopen(source_file_path, "r");
-    FILE *fptr_temp_output = fopen(temp_output_file_path, "w");
-
-    if (fptr_source == NULL || fptr_temp_output == NULL) {
+int remove_comments(const char* source_file_path, const char *output_file_path) {
+    char current_char = ' ';
+    FILE *source_fptr = fopen(source_file_path, "r");
+    FILE *output_fptr = fopen(output_file_path, "w");
+    if (source_fptr == NULL || output_fptr == NULL) {
         return 0;
     }
+    if (feof(source_fptr)) {
+        return 0;
+    }
+    while ((current_char = fgetc(source_fptr)) != EOF) {
+        if (current_char == '/') {
+            current_char = fgetc(source_fptr);
+            if (current_char == '/') {
+                do {
+                    current_char = fgetc(source_fptr);
+                } 
+                while (current_char != '\n' && current_char != EOF);
+            }
+            else if (current_char == '*') {
+                do {
+                    current_char = fgetc(source_fptr);
+                    if (current_char == '*') {
+                        current_char = fgetc(source_fptr);
+                        if (current_char == '/') {
+                            break;
+                        }
+                    }
+                }
+                while (current_char != EOF);
+            }
+            else {
+                if (current_char != EOF) {
+                    ungetc(current_char, source_fptr);
+                }
+            }
+        }
+        else {
+            fputc(current_char, output_fptr);
+        }
+    }
+    fclose(source_fptr);
+    fclose(output_fptr);
+}
 
-    /*
-    1. Quitar comentarios | comment_remover(...)
-    2. Resolver #defines | (Cambiar nombre de las funciones main de estos archivos)
-    3. Resolver includes | (Cambiar nombre de las funciones main de estos archivos)
-    */
+int preprocess(const char *source_file_path, const char *output_file_path) {
+    remove_comments(source_file_path, "tmp/comment_removed");
+    solve_defines("tmp/comment_removed", "tmp/defines_solved");
+    process_file("tmp/defines_solved", output_file_path);
+
+    remove("tmp/comment_removed");
+    remove("tmp/defines_solved");
 
     return 1;
 }
@@ -102,7 +143,7 @@ int main(int argc, char *argv[])
     }
 
     /* Crear archivo temporal */
-    char nombre_temporal[] = "/tmp/preprocesadoXXXXXX";
+    char nombre_temporal[] = "tmp/preprocesadoXXXXXX";
 
     int fd = mkstemp(nombre_temporal);
 
@@ -113,14 +154,20 @@ int main(int argc, char *argv[])
 
     close(fd);
 
-    // ====== PARA PRUEBAS ======== -- lun
-    /* FASE 1: Preprocesamiento 
     if (!preprocess(argv[1], nombre_temporal)) {
         fprintf(stderr, "Error durante el preprocesamiento\n");
         return EXIT_FAILURE;
     }
 
-    /* FASE 2: Abrir resultado del preprocesamiento 
+    #if 0
+    // ====== PARA PRUEBAS ======== -- lun
+    // FASE 1: Preprocesamiento 
+    if (!preprocess(argv[1], nombre_temporal)) {
+        fprintf(stderr, "Error durante el preprocesamiento\n");
+        return EXIT_FAILURE;
+    }
+
+    // FASE 2: Abrir resultado del preprocesamiento 
     FILE *archivo_preprocesado = fopen(nombre_temporal, "r");
 
     if (archivo_preprocesado == NULL) {
@@ -129,19 +176,15 @@ int main(int argc, char *argv[])
     }
 
     yyin = archivo_preprocesado;
-	*/
-
-	FILE *archivo_preprocesado = fopen("archivo_preprocesado.c", "r");
 
     if (archivo_preprocesado == NULL) {
         perror("Error abriendo archivo preprocesado");
         return EXIT_FAILURE;
     }
 
-    yyin = archivo_preprocesado;
 	// ====== fin PRUEBAS ======== -- lun
 
-    source_code = fopen("source_code.tex", "w");
+    source_code = fopen("texs/source_code.tex", "w");
 
     if (source_code == NULL) {
         perror("Error creando source_code.tex");
@@ -182,8 +225,6 @@ int main(int argc, char *argv[])
         }
 
     } while (token.codigo != TOKEN_EOF);
-
-    fclose(archivo_preprocesado);
     
     //borrar !! -- lun
     fprintf(source_code, "\\end{verbatim}\n");
@@ -213,7 +254,7 @@ int main(int argc, char *argv[])
     fclose(stats);
 
 
-    FILE *stats2 = fopen("pie_chart.tex", "w");
+    FILE *stats2 = fopen("texs/pie_chart.tex", "w");
 
     if (stats2 == NULL) {
         perror("Error creando pie_chart.tex");
@@ -252,6 +293,7 @@ int main(int argc, char *argv[])
 
 
     fclose(stats2);
+    #endif
 
     return EXIT_SUCCESS;
 }

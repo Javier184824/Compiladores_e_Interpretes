@@ -40,6 +40,6 @@ char *trim(char *s);
 int handle_directive_line(const char *line, DefineTable *dt);
 char *read_whole_file(const char *path, size_t *out_len);
 void process(const char *content, size_t len, StrBuf *out);
-void usage(const char *prog);
+int solve_defines(const char *input_file, const char* output_file);
 
 #endif /* DEFINE_PREPROCESSOR_H */

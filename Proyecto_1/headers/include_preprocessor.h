@@ -14,7 +14,7 @@ void strip_newline(char *line);
 int parse_include_line(const char *line, char *filename, size_t fnsize);
 char *resolve_include_path(const char *filename, const char *current_dir);
 int already_on_stack(const char *resolved_path);
-void process_file(const char *path, FILE *out);
+void process_file(const char *path, const char *output_path);
 void usage(const char *prog);
 
 #endif /* INCLUDE_PREPROCESSOR_H */

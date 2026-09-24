@@ -34,7 +34,7 @@
 
 #define _POSIX_C_SOURCE 200809L  /* for strdup() under strict C99 */
 
-#include "include_preprocessor.h"
+#include "../headers/include_preprocessor.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -153,7 +153,7 @@ int already_on_stack(const char *resolved_path) {
     return 0;
 }
 
-void process_file(const char *path, FILE *out) {
+void process_file(const char *path, const char *output_path) {
     if (inclusion_depth >= MAX_STACK_DEPTH) {
         die("include nesting too deep (possible circular include?)");
     }
@@ -167,17 +167,18 @@ void process_file(const char *path, FILE *out) {
     }
 
     FILE *in = fopen(path, "r");
+    FILE *out = fopen(output_path, "w");
     if (!in) {
         fprintf(stderr, "error: could not open '%s': %s\n", path, strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    if (!out) {
+        fprintf(stderr, "error: could not open '%s': %s\n", output_path, strerror(errno));
         exit(EXIT_FAILURE);
     }
 
     inclusion_stack[inclusion_depth++] = strdup(path);
     char *current_dir = dirname_of(path);
-
-#if EMIT_MARKERS
-    fprintf(out, "// ---- begin include: %s ----\n", path);
-#endif
 
     char line[MAX_LINE];
     long lineno = 0;
@@ -194,7 +195,7 @@ void process_file(const char *path, FILE *out) {
                         path, lineno, filename);
                 fprintf(out, "%s\n", line);
             } else {
-                process_file(resolved, out);  /* recursive resolution */
+                process_file(resolved, output_path);  /* recursive resolution */
                 free(resolved);
             }
         } else {
@@ -202,26 +203,22 @@ void process_file(const char *path, FILE *out) {
         }
     }
 
-#if EMIT_MARKERS
-    fprintf(out, "// ---- end include: %s ----\n", path);
-#endif
-
     fclose(in);
     free(current_dir);
     free(inclusion_stack[--inclusion_depth]);
 }
 
 /* ---- main / CLI ------------------------------------------------------ */
-
+#if 0
 void usage(const char *prog) {
     fprintf(stderr,
         "usage: %s <input_file> [-o output_file]\n",
         prog);
 }
 
+
 int main(int argc, char **argv) {
     if (argc < 2) {
-        usage(argv[0]);
         return EXIT_FAILURE;
     }
 
@@ -241,7 +238,6 @@ int main(int argc, char **argv) {
     }
 
     if (!input_file) {
-        usage(argv[0]);
         return EXIT_FAILURE;
     }
 
@@ -259,3 +255,4 @@ int main(int argc, char **argv) {
     if (out != stdout) fclose(out);
     return EXIT_SUCCESS;
 }
+    #endif
