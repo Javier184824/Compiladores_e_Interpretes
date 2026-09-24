@@ -54,7 +54,7 @@ int remove_comments(const char* source_file_path, const char *output_file_path) 
 int preprocess(const char *source_file_path, const char *output_file_path) {
     remove_comments(source_file_path, "tmp/comment_removed");
     solve_defines("tmp/comment_removed", "tmp/defines_solved");
-    process_file("tmp/defines_solved", output_file_path);
+    solve_includes("tmp/defines_solved", output_file_path);
 
     remove("tmp/comment_removed");
     remove("tmp/defines_solved");

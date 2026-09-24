@@ -32,9 +32,6 @@
  *         #define A 5
  *         #define B A      -> B expands to 5
  *
- * Usage:
- *   ./define_preprocessor <input_file> [-o output_file]
- *
  * Not supported (by design, since only "simple" #define was asked for):
  *   - function-like macros (#define NAME(args) ...)
  *   - multi-line macros using backslash-newline continuation

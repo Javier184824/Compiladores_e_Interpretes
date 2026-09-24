@@ -12,9 +12,6 @@
  * Only quoted includes ("file.h") are treated as includes to resolve;
  * angle-bracket includes (<file.h>) are left untouched in the output.
  *
- * Usage:
- *   ./include_preprocessor <input_file> [-o output_file]
- *
  * Notes:
  *   - "file.h" includes are resolved relative to the directory of the
  *     file that contains the #include (so if a/b.h includes "c.h", it
@@ -153,7 +150,7 @@ int already_on_stack(const char *resolved_path) {
     return 0;
 }
 
-void process_file(const char *path, const char *output_path) {
+void solve_includes(const char *path, const char *output_path) {
     if (inclusion_depth >= MAX_STACK_DEPTH) {
         die("include nesting too deep (possible circular include?)");
     }
@@ -195,7 +192,7 @@ void process_file(const char *path, const char *output_path) {
                         path, lineno, filename);
                 fprintf(out, "%s\n", line);
             } else {
-                process_file(resolved, output_path);  /* recursive resolution */
+                solve_includes(resolved, output_path);  /* recursive resolution */
                 free(resolved);
             }
         } else {
@@ -207,52 +204,3 @@ void process_file(const char *path, const char *output_path) {
     free(current_dir);
     free(inclusion_stack[--inclusion_depth]);
 }
-
-/* ---- main / CLI ------------------------------------------------------ */
-#if 0
-void usage(const char *prog) {
-    fprintf(stderr,
-        "usage: %s <input_file> [-o output_file]\n",
-        prog);
-}
-
-
-int main(int argc, char **argv) {
-    if (argc < 2) {
-        return EXIT_FAILURE;
-    }
-
-    const char *input_file = NULL;
-    const char *output_file = NULL;
-
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-o") == 0) {
-            if (i + 1 >= argc) die("-o requires an argument");
-            output_file = argv[++i];
-        } else if (!input_file) {
-            input_file = argv[i];
-        } else {
-            usage(argv[0]);
-            return EXIT_FAILURE;
-        }
-    }
-
-    if (!input_file) {
-        return EXIT_FAILURE;
-    }
-
-    FILE *out = stdout;
-    if (output_file) {
-        out = fopen(output_file, "w");
-        if (!out) {
-            fprintf(stderr, "error: could not open output file '%s'\n", output_file);
-            return EXIT_FAILURE;
-        }
-    }
-
-    process_file(input_file, out);
-
-    if (out != stdout) fclose(out);
-    return EXIT_SUCCESS;
-}
-    #endif

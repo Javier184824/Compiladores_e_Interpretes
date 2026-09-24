@@ -165,6 +165,8 @@ static int contador_tokens[7] = {0};
 static int total_tokens = 0;
 static FILE *source_code;
 
+int remove_comments(const char* source_file_path, const char *output_file_path);
+int preprocess(const char *source_file_path, const char *output_file_path);
 Token Get_Token(void);
 void guardar_token(int codigo, CategoriaToken categoria);
 void limpiar_separadores(const char *origen, char *destino);
