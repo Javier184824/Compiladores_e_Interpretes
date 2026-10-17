@@ -1,0 +1,2 @@
+output:
+	pdflatex main.tex
