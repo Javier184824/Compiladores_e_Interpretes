@@ -385,7 +385,7 @@ The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occu
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 
 % Estados
@@ -424,7 +424,7 @@ The set of strings over \{\textit{a,b,c}\} that begin with \textit{a}, contain e
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 
 \node[state, initial, initial where=left] (0) at (0,0)    {0};
@@ -458,7 +458,7 @@ The set of strings over \{\textit{a,b}\} that contain the substring \textit{ab} 
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 \node[state, initial, initial where=left] (0) at (0,0)    {0};
 \node[state]                              (1) at (2,0)    {1};
@@ -493,7 +493,7 @@ The set of strings over \{\textit{a,b,c}\} that contain the substrings \textit{a
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 \tikzset{
     every state/.style={minimum size=10mm},
@@ -731,7 +731,7 @@ The set of strings over \{\textit{a,b,c}\} in which every \textit{b} is immediat
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 \node[state, accepting, initial, initial where=left] (0) at (0,0){0};
 \node[state]                              (1) at (2,0)    {1};
@@ -751,7 +751,7 @@ The set of strings over \{\textit{a,b,c}\} with length three.
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 \node[state, initial, initial where=left] (0) at (0,0)    {0};
 \node[state]                              (1) at (0,-2)    {1};
@@ -774,7 +774,7 @@ The set of strings over \{\textit{a,b,c}\} with length less than three.
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 \node[state, accepting, initial, initial where=left] (0) at (0,0)    {0};
 \node[state, accepting]                              (1) at (0,-2)    {1};
@@ -794,7 +794,7 @@ The set of strings over \{\textit{a,b,c}\} with length greater than three.
     node distance=2.5cm,    % Sets global spacing between states
     on grid,                % Aligns positions based on center points instead of node borders
     auto,                   % Smart placement of transition labels
-    >=Stealth      % Uses a clean, modern arrowhead style
+    >={Stealth[round]}      % Uses a clean, modern arrowhead style
 ]
 \node[state, initial, initial where=left] (0) at (0,0)    {0};
 \node[state]                              (1) at (0,-2)    {1};
