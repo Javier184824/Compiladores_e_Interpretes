@@ -9,7 +9,7 @@
 
 % Imágenes y figuras
 \usepackage{graphicx}
-
+\usepackage{amsmath}
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning, arrows.meta}
 
@@ -114,28 +114,46 @@ The set of strings over \{\textit{a,b}\} that do not contain with the substring 
 
 \section*{Exercise 21}
 The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occurs extacly once.
-
+\newline
+$$(b|ab)^*aa(b|ba)^*$$
 \section*{Exercise 22}
 The set of strings over \{\textit{a,b,c}\} that begin with \textit{a}, contain exactly two \textit{b}'s, and end with \textit{cc}.
-
+\newline
+$$a(a|c)^*b(a|c)^*b(a|c)^*cc$$
 \section*{Exercise 23}
 The set of strings over \{\textit{a,b}\} that contain the substring \textit{ab} and the substring \textit{ba}.
-
+\newline
+$$(a|b)^*(ab(a|b)^*ba|ba(a|b)^*ab|aba|bab)(a|b)^* $$
 \section*{Exercise 24}
 The set of strings over \{\textit{a,b,c}\} that contain the substrings \textit{aa}, \textit{bb} and \textit{cc}.
-
+\[
+\begin{aligned}
+(a\mid b\mid c)^*\Bigl(
+  & aa(a\mid b\mid c)^*bb(a\mid b\mid c)^*cc \\
+  & {}\mid aa(a\mid b\mid c)^*cc(a\mid b\mid c)^*bb \\
+  & {}\mid bb(a\mid b\mid c)^*aa(a\mid b\mid c)^*cc \\
+  & {}\mid bb(a\mid b\mid c)^*cc(a\mid b\mid c)^*aa \\
+  & {}\mid cc(a\mid b\mid c)^*aa(a\mid b\mid c)^*bb \\
+  & {}\mid cc(a\mid b\mid c)^*bb(a\mid b\mid c)^*aa
+\Bigr)(a\mid b\mid c)^*
+\end{aligned}
+\]
 \section*{Exercise 25}
 The set of strings over \{\textit{a,b,c}\} in which every \textit{b} is immediately followed by at least one \textit{c}.
-
+\newline
+$$(a|c|bc)^*$$
 \section*{Exercise 26}
 The set of strings over \{\textit{a,b,c}\} with length three.
-
+\newline
+$$(a|b|c)(a|b|c)(a|b|c)$$
 \section*{Exercise 27}
 The set of strings over \{\textit{a,b,c}\} with length less than three.
-
+\newline
+$$(a|b|c) | (a|b|c)(a|b|c) | \varepsilon $$
 \section*{Exercise 28}
 The set of strings over \{\textit{a,b,c}\} with length greater than three.
-
+\newline
+$$(a|b|c)(a|b|c)(a|b|c)(a|b|c)(a|b|c)^*$$
 \section*{Exercise 29}
 The set of strings over \{\textit{a,b}\} in which the number of \textit{a}'s is divisible by three.
 
