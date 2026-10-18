@@ -154,28 +154,45 @@ $$(a|b|c) | (a|b|c)(a|b|c) | \varepsilon $$
 The set of strings over \{\textit{a,b,c}\} with length greater than three.
 \newline
 $$(a|b|c)(a|b|c)(a|b|c)(a|b|c)(a|b|c)^*$$
+
 \section*{Exercise 29}
 The set of strings over \{\textit{a,b}\} in which the number of \textit{a}'s is divisible by three.
+\newline
+$$(b^*ab^*ab^*a)^*$$
 
 \section*{Exercise 30}
 The set of strings over \{\textit{a,b,c}\} in which the total number of \textit{a}'s is divisible by three.
+\newline
+$$\varepsilon | a^*(b|c)a^*(b|c)a^*(b|c)a^*$$
 
 \section*{Exercise 31}
-The set of strings over \{\textit{a,b}\} in which every \textit{a} is either immediately preceded o immediately followed by \textit{b}, for example, \textit{baab}, \textit{aba}, and \textit{b}.
+The set of strings over \{\textit{a,b}\} in which every \textit{a} is either immediately preceded or immediately followed by \textit{b}, for example, \textit{baab}, \textit{aba}, and \textit{b}.
+\newline
+$$\varepsilon | (b|ab|ba)^*$$
 
 \section*{Exercise 32}
 The set of strings of odd length over \{\textit{a,b}\} that contain the substring \textit{bb}.
+\newline
+$$((a|b)(a|b))^*bb((a|b)(a|b))^*(a|b) | ((a|b)(a|b))^*(a|b)bb((a|b)(a|b))^*$$
 
 \section*{Exercise 33}
 The set of strings of even length over \{\textit{a,b,c}\} that contain exactly one \textit{a}.
+\newline
+$$((b|c)(b|c))^*a(((b|c)(b|c))^*(b|c)) | ((b|c)(b|c))^*(b|c)a((b|c)(b|c))^*$$
 
 \section*{Exercise 34}
 The set of strings over \{\textit{a,b,c}\} with an odd number of occurrences of the substring \textit{ab}.
+\newline
+$$((b|a^*c)^*a^*) ab ((b|a^*c)^*a^*) ( ab ((b|a^*c)^*a^*) ab ((b|a^*c)^*a^*))^*$$
 
 \section*{Exercise 35}
 The set of strings of odd length over \{\textit{a,b}\} that contain exactly two \textit{b}'s.
+\newline
+$$(aa)^*bb(aa)^*a | (aa)^*abb(aa)^* | (aa)^*ab(aa)^*ab(aa)^*a | (aa)^*b(aa)^*ab(aa)^*a | (aa)^*b(aa)^*b(aa)^*a | (aa)^*b(aa)^*b(aa)^*$$
 
 \section*{Exercise 36}
 The set of strings over \{\textit{a,b}\} with an even number of \textit{a}'s or an odd number of \textit{b}'s.
+\newline
+$$(a^*ba^*)^* | (a^*ba^*)^*b(a^*ba^*)^*$$
 
 \end{document}
