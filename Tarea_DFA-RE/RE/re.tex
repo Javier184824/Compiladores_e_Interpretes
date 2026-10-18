@@ -87,31 +87,40 @@
 
 \section*{Exercise 12}
 The set of strings over \{\textit{a,b,c}\} in which all the \textit{a}'s precede the \textit{b}'s, which in turn precede the \textit{c}'s. It is possible that there are no \textit{a}'s, \textit{b}'s, or \textit{c}'s.
-
+\newline
+$$a^*b^*c^*$$
 \section*{Exercise 13}
 The same set as Exercise 12 without the null string.
-
+\newline
+$$aa^*b^*c^*|a^*bb^*c^*|a^*b^*cc^*$$
 \section*{Exercise 14}
 The set of strings of length two or more over \{\textit{a,b}\} in which all the \textit{a}'s precede the \textit{b}'s.
-
+\newline
+$$(aaa^*b^*)|(aa^*bb^*)|(bbb^*)$$
 \section*{Exercise 15}
 The set of strings over \{\textit{a,b}\} that contain the substring \textit{aa} and the substring \textit{bb}.
-
+\newline
+$$(a|b)^*aa(a|b)^*bb(a|b)^*|(a|b)^*bb(a|b)^*aa(a|b)^*$$
 \section*{Exercise 16}
 The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occurs at least twice. \textit{Hint}: Beware of the substring \textit{aaa}.
-
+\newline
+$$b^*aab^*aab^*$$
 \section*{Exercise 17}
 The set of strings over \{\textit{a,b,c}\} that do not contain the substring \textit{aa}.
-
+\newline
+$$(b|c|ab|ac)^*|(b|c|ab|ac)^*a$$
 \section*{Exercise 18}
 The set of strings over \{\textit{a,b}\} that do not begin with the substring \textit{aaa}.
-
+\newline
+$$(a|b|c)|(a|b|c)(a|b|c)|(b|c)(a|b|c)^*|a(b|c)(a|b|c)^*|aa(b|c)(a|b|c)^*$$
 \section*{Exercise 19}
 The set of strings over \{\textit{a,b}\} that do not contain with the substring \textit{aaa}.
-
+\newline
+$$(b^*|ab|aab)^*|(b^*|ab|aab)^*(a|aa)$$
 \section*{Exercise 20}
 The set of strings over \{\textit{a,b}\} that do not contain with the substring \textit{aba}.
-
+\newline
+$$(b|a^*)(bbb^*|a^*)^*|(b|a^*)(bbb^*|a^*)^*b$$
 \section*{Exercise 21}
 The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occurs extacly once.
 \newline
