@@ -92,15 +92,15 @@ $$a^*b^*c^*$$
 \section*{Exercise 13}
 The same set as Exercise 12 without the null string.
 \newline
-$$aa^*b^*c^*|a^*bb^*c^*|a^*b^*cc^*$$
+$$aa^*b^*c^* \mid a^*bb^*c^* \mid a^*b^*cc^*$$
 \section*{Exercise 14}
 The set of strings of length two or more over \{\textit{a,b}\} in which all the \textit{a}'s precede the \textit{b}'s.
 \newline
-$$(aaa^*b^*)|(aa^*bb^*)|(bbb^*)$$
+$$(aaa^*b^*) \mid (aa^*bb^*) \mid (bbb^*)$$
 \section*{Exercise 15}
 The set of strings over \{\textit{a,b}\} that contain the substring \textit{aa} and the substring \textit{bb}.
 \newline
-$$(a|b)^*aa(a|b)^*bb(a|b)^*|(a|b)^*bb(a|b)^*aa(a|b)^*$$
+$$(a \mid b)^*aa(a \mid b)^*bb(a \mid b)^* \mid (a \mid b)^*bb(a \mid b)^*aa(a \mid b)^*$$
 
 \newpage
 
@@ -111,31 +111,31 @@ $$b^*aab^*aab^*$$
 \section*{Exercise 17}
 The set of strings over \{\textit{a,b,c}\} that do not contain the substring \textit{aa}.
 \newline
-$$(b|c|ab|ac)^*|(b|c|ab|ac)^*a$$
+$$(b \mid c \mid ab \mid ac)^* \mid (b \mid c \mid ab \mid ac)^*a$$
 \section*{Exercise 18}
 The set of strings over \{\textit{a,b}\} that do not begin with the substring \textit{aaa}.
 \newline
-$$(a|b|c)|(a|b|c)(a|b|c)|(b|c)(a|b|c)^*|a(b|c)(a|b|c)^*|aa(b|c)(a|b|c)^*$$
+$$(a \mid b \mid c) \mid (a \mid b \mid c)(a \mid b \mid c) \mid (b \mid c)(a \mid b \mid c)^* \mid a(b \mid c)(a \mid b \mid c)^* \mid aa(b \mid c)(a \mid b \mid c)^*$$
 \section*{Exercise 19}
 The set of strings over \{\textit{a,b}\} that do not contain the substring \textit{aaa}.
 \newline
-$$(b^*|ab|aab)^*|(b^*|ab|aab)^*(a|aa)$$
+$$(b^* \mid ab \mid aab)^* \mid (b^* \mid ab \mid aab)^*(a \mid aa)$$
 \section*{Exercise 20}
 The set of strings over \{\textit{a,b}\} that do not contain the substring \textit{aba}.
 \newline
-$$(b|a^*)(bbb^*|a^*)^*|(b|a^*)(bbb^*|a^*)^*b$$
+$$(b \mid a^*)(bbb^* \mid a^*)^* \mid (b \mid a^*)(bbb^* \mid a^*)^*b$$
 \section*{Exercise 21}
 The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occurs extacly once.
 \newline
-$$(b|ab)^*aa(b|ba)^*$$
+$$(b \mid ab)^*aa(b \mid ba)^*$$
 \section*{Exercise 22}
 The set of strings over \{\textit{a,b,c}\} that begin with \textit{a}, contain exactly two \textit{b}'s, and end with \textit{cc}.
 \newline
-$$a(a|c)^*b(a|c)^*b(a|c)^*cc$$
+$$a(a \mid c)^*b(a \mid c)^*b(a \mid c)^*cc$$
 \section*{Exercise 23}
 The set of strings over \{\textit{a,b}\} that contain the substring \textit{ab} and the substring \textit{ba}.
 \newline
-$$(a|b)^*(ab(a|b)^*ba|ba(a|b)^*ab|aba|bab)(a|b)^* $$
+$$(a \mid b)^*(ab(a \mid b)^*ba \mid ba(a \mid b)^*ab \mid aba \mid bab)(a \mid b)^* $$
 \section*{Exercise 24}
 The set of strings over \{\textit{a,b,c}\} that contain the substrings \textit{aa}, \textit{bb} and \textit{cc}.
 \[
@@ -153,19 +153,19 @@ The set of strings over \{\textit{a,b,c}\} that contain the substrings \textit{a
 \section*{Exercise 25}
 The set of strings over \{\textit{a,b,c}\} in which every \textit{b} is immediately followed by at least one \textit{c}.
 \newline
-$$(a|c|bc)^*$$
+$$(a \mid c \mid bc)^*$$
 \section*{Exercise 26}
 The set of strings over \{\textit{a,b,c}\} with length three.
 \newline
-$$(a|b|c)(a|b|c)(a|b|c)$$
+$$(a \mid b \mid c)(a \mid b \mid c)(a \mid b \mid c)$$
 \section*{Exercise 27}
 The set of strings over \{\textit{a,b,c}\} with length less than three.
 \newline
-$$(a|b|c) | (a|b|c)(a|b|c) | \varepsilon $$
+$$(a \mid b \mid c)  \mid  (a \mid b \mid c)(a \mid b \mid c)  \mid  \varepsilon $$
 \section*{Exercise 28}
 The set of strings over \{\textit{a,b,c}\} with length greater than three.
 \newline
-$$(a|b|c)(a|b|c)(a|b|c)(a|b|c)(a|b|c)^*$$
+$$(a \mid b \mid c)(a \mid b \mid c)(a \mid b \mid c)(a \mid b \mid c)(a \mid b \mid c)^*$$
 
 \section*{Exercise 29}
 The set of strings over \{\textit{a,b}\} in which the number of \textit{a}'s is divisible by three.
@@ -175,36 +175,36 @@ $$(b^*ab^*ab^*a)^*$$
 \section*{Exercise 30}
 The set of strings over \{\textit{a,b,c}\} in which the total number of \textit{a}'s is divisible by three.
 \newline
-$$\varepsilon | a^*(b|c)a^*(b|c)a^*(b|c)a^*$$
+$$\varepsilon  \mid  a^*(b \mid c)a^*(b \mid c)a^*(b \mid c)a^*$$
 
 \section*{Exercise 31}
 The set of strings over \{\textit{a,b}\} in which every \textit{a} is either immediately preceded or immediately followed by \textit{b}, for example, \textit{baab}, \textit{aba}, and \textit{b}.
 \newline
-$$\varepsilon | (b|ab|ba)^*$$
+$$\varepsilon  \mid  (b \mid ab \mid ba)^*$$
 
 \section*{Exercise 32}
 The set of strings of odd length over \{\textit{a,b}\} that contain the substring \textit{bb}.
 \newline
-$$((a|b)(a|b))^*bb((a|b)(a|b))^*(a|b) | ((a|b)(a|b))^*(a|b)bb((a|b)(a|b))^*$$
+$$((a \mid b)(a \mid b))^*bb((a \mid b)(a \mid b))^*(a \mid b)  \mid  ((a \mid b)(a \mid b))^*(a \mid b)bb((a \mid b)(a \mid b))^*$$
 
 \section*{Exercise 33}
 The set of strings of even length over \{\textit{a,b,c}\} that contain exactly one \textit{a}.
 \newline
-$$((b|c)(b|c))^*a(((b|c)(b|c))^*(b|c)) | ((b|c)(b|c))^*(b|c)a((b|c)(b|c))^*$$
+$$((b \mid c)(b \mid c))^*a(((b \mid c)(b \mid c))^*(b \mid c))  \mid  ((b \mid c)(b \mid c))^*(b \mid c)a((b \mid c)(b \mid c))^*$$
 
 \section*{Exercise 34}
 The set of strings over \{\textit{a,b,c}\} with an odd number of occurrences of the substring \textit{ab}.
 \newline
-$$((b|a^*c)^*a^*) ab ((b|a^*c)^*a^*) ( ab ((b|a^*c)^*a^*) ab ((b|a^*c)^*a^*))^*$$
+$$((b \mid a^*c)^*a^*) ab ((b \mid a^*c)^*a^*) ( ab ((b \mid a^*c)^*a^*) ab ((b \mid a^*c)^*a^*))^*$$
 
 \section*{Exercise 35}
 The set of strings of odd length over \{\textit{a,b}\} that contain exactly two \textit{b}'s.
 \newline
-$$(aa)^*ab(aa)^*b(aa)^* | (aa)^*b(aa)^*ab(aa) | (aa)^*b(aa)^*b(aa)^*a | (aa)^*ab(aa)^*ab(aa)^*a$$
+$$(aa)^*ab(aa)^*b(aa)^*  \mid  (aa)^*b(aa)^*ab(aa)  \mid  (aa)^*b(aa)^*b(aa)^*a  \mid  (aa)^*ab(aa)^*ab(aa)^*a$$
 
 \section*{Exercise 36}
 The set of strings over \{\textit{a,b}\} with an even number of \textit{a}'s or an odd number of \textit{b}'s.
 \newline
-$$(a^*ba^*)^* | (a^*ba^*)^*b(a^*ba^*)^*$$
+$$(a^*ba^*)^*  \mid  (a^*ba^*)^*b(a^*ba^*)^*$$
 
 \end{document}

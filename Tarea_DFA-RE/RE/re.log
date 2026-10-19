@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.19)  18 OCT 2026 22:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.5)  18 OCT 2026 23:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -741,6 +741,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 116--118
  []
 
 
+Overfull \hbox (22.26877pt too wide) detected at line 118
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10 b \OMS/
+cmsy/m/n/10 j \OML/cmm/m/it/10 c\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 j \OT1/cmr/m
+/n/10 (\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10 b \OMS/cmsy/m/n/1
+0 j \OML/cmm/m/it/10 c\OT1/cmr/m/n/10 )(\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \
+OML/cmm/m/it/10 b \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10 c\OT1/cmr/m/n/10 ) \OMS/c
+msy/m/n/10 j \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 b \OMS/cmsy/m/n/10 j \OML/cmm/m/
+it/10 c\OT1/cmr/m/n/10 )(\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10
+ b \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10 c\OT1/cmr/m/n/10 )[] \OMS/cmsy/m/n/10 j 
+\OML/cmm/m/it/10 a\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 b \OMS/cmsy/m/n/10 j \OML/c
+mm/m/it/10 c\OT1/cmr/m/n/10 )(\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \OML/cmm/m/
+it/10 b \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10 c\OT1/cmr/m/n/10 )[] \OMS/cmsy/m/n/
+10 j \OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 b \OMS/cmsy/m/n/10 j 
+\OML/cmm/m/it/10 c\OT1/cmr/m/n/10 )(\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \OML/
+cmm/m/it/10 b \OMS/cmsy/m/n/10 j \OML/cmm/m/it/10 c\OT1/cmr/m/n/10 )[]
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 120--122
 
  []
@@ -821,19 +839,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 201--203
  []
 
 
-Overfull \hbox (0.14641pt too wide) detected at line 203
+Overfull \hbox (16.81267pt too wide) detected at line 203
 \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/
 cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/
-n/10 (\OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OMS/cmsy/m/n/10 j\OT1/cmr/m/n/10 (
-\OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 (\OML/c
-mm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 (\OML/cmm/m/
-it/10 aa\OT1/cmr/m/n/10 )\OMS/cmsy/m/n/10 j\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa
-\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/c
-mr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/cmr/m/n
-/10 )[]\OML/cmm/m/it/10 a\OMS/cmsy/m/n/10 j\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa
-\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/
-cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/cmr/m
-/n/10 )[]\OML/cmm/m/it/10 a
+n/10 (\OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[] \OMS/cmsy/m/n/10 j \OT1/cmr/m/n/10
+ (\OML/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 (\OML
+/cmm/m/it/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 (\OML/cmm/
+m/it/10 aa\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 j \OT1/cmr/m/n/10 (\OML/cmm/m/it/1
+0 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\O
+T1/cmr/m/n/10 )[]\OML/cmm/m/it/10 b\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1/cmr
+/m/n/10 )[]\OML/cmm/m/it/10 a \OMS/cmsy/m/n/10 j \OT1/cmr/m/n/10 (\OML/cmm/m/it
+/10 aa\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 a
+a\OT1/cmr/m/n/10 )[]\OML/cmm/m/it/10 ab\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 aa\OT1
+/cmr/m/n/10 )[]\OML/cmm/m/it/10 a
  []
 
 [5]
@@ -851,8 +869,8 @@ Package rerunfilecheck Info: File `re.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  21649 strings out of 469514
- 415933 string characters out of 5470072
- 820715 words of memory out of 5000000
+ 415933 string characters out of 5470073
+ 821715 words of memory out of 5000000
  49943 multiletter control sequences out of 15000+600000
  630329 words of font info for 49 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -866,7 +884,7 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
 type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti10.pfb>
-Output written on RE/re.pdf (7 pages, 801270 bytes).
+Output written on RE/re.pdf (7 pages, 801421 bytes).
 PDF statistics:
  125 PDF objects out of 1000 (max. 8388607)
  94 compressed objects within 1 object stream
