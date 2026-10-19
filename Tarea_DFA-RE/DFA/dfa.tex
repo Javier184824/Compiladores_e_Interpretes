@@ -381,11 +381,11 @@ The set of strings over \{\textit{a,b}\} that do not contain the substring \text
 The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occurs extacly once.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,   
+    on grid,                
+    auto,                  
+    >={Stealth[round]}      
 ]
 
 % Estados
@@ -420,11 +420,11 @@ The set of strings over \{\textit{a,b}\} in which the substring \textit{aa} occu
 The set of strings over \{\textit{a,b,c}\} that begin with \textit{a}, contain exactly two \textit{b}'s, and end with \textit{cc}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,          
+    node distance=2.5cm,    
+    on grid,               
+    auto,                 
+    >={Stealth[round]}     
 ]
 
 \node[state, initial, initial where=left] (0) at (0,0)    {$0$};
@@ -454,11 +454,11 @@ The set of strings over \{\textit{a,b,c}\} that begin with \textit{a}, contain e
 The set of strings over \{\textit{a,b}\} that contain the substring \textit{ab} and the substring \textit{ba}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,    
+    on grid,                
+    auto,                   
+    >={Stealth[round]}      
 ]
 \node[state, initial, initial where=left] (0) at (0,0)    {$0$};
 \node[state]                              (1) at (2,0)    {$1$};
@@ -489,11 +489,11 @@ The set of strings over \{\textit{a,b,c}\} that contain the substrings \textit{a
 
 \resizebox{\textwidth}{!}{
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,          
+    node distance=2.5cm,    
+    on grid,                
+    auto,                  
+    >={Stealth[round]}    
 ]
 \tikzset{
     every state/.style={minimum size=10mm},
@@ -727,11 +727,11 @@ The set of strings over \{\textit{a,b,c}\} that contain the substrings \textit{a
 The set of strings over \{\textit{a,b,c}\} in which every \textit{b} is immediately followed by at least one \textit{c}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,    
+    on grid,               
+    auto,                  
+    >={Stealth[round]}     
 ]
 \node[state, accepting, initial, initial where=left] (0) at (0,0){$0$};
 \node[state]                              (1) at (2,0)    {$1$};
@@ -747,11 +747,11 @@ The set of strings over \{\textit{a,b,c}\} in which every \textit{b} is immediat
 The set of strings over \{\textit{a,b,c}\} with length three.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,    
+    on grid,               
+    auto,                   
+    >={Stealth[round]}      
 ]
 \node[state, initial, initial where=left] (0) at (0,0)    {$0$};
 \node[state]                              (1) at (0,-2)    {$1$};
@@ -770,11 +770,11 @@ The set of strings over \{\textit{a,b,c}\} with length three.
 The set of strings over \{\textit{a,b,c}\} with length less than three.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,          
+    node distance=2.5cm,    
+    on grid,               
+    auto,                   
+    >={Stealth[round]}     
 ]
 \node[state, accepting, initial, initial where=left] (0) at (0,0)    {$0$};
 \node[state, accepting]                              (1) at (0,-2)    {$1$};
@@ -790,11 +790,11 @@ The set of strings over \{\textit{a,b,c}\} with length less than three.
 The set of strings over \{\textit{a,b,c}\} with length greater than three.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,
+    on grid,                
+    auto,                   
+    >={Stealth[round]}      
 ]
 \node[state, initial, initial where=left] (0) at (0,0)    {$0$};
 \node[state]                              (1) at (0,-2)    {$1$};
@@ -815,11 +815,11 @@ The set of strings over \{\textit{a,b,c}\} with length greater than three.
 The set of strings over \{\textit{a,b}\} in which the number of \textit{a}'s is divisible by three.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,    
+    on grid,                
+    auto,                  
+    >={Stealth[round]}      
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -846,11 +846,11 @@ The set of strings over \{\textit{a,b}\} in which the number of \textit{a}'s is 
 The set of strings over \{\textit{a,b,c}\} in which the total number of \textit{b}'s and \textit{c}'s is three.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,    
+    on grid,               
+    auto,                  
+    >={Stealth[round]}     
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -882,11 +882,11 @@ The set of strings over \{\textit{a,b,c}\} in which the total number of \textit{
 The set of strings over \{\textit{a,b}\} in which every \textit{a} is either immediately preceded o immediately followed by \textit{b}, for example, \textit{baab}, \textit{aba}, and \textit{b}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,          
+    node distance=2.5cm,   
+    on grid,                
+    auto,                  
+    >={Stealth[round]}     
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -916,11 +916,11 @@ The set of strings over \{\textit{a,b}\} in which every \textit{a} is either imm
 The set of strings of odd length over \{\textit{a,b}\} that contain the substring \textit{bb}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,    
+    on grid,               
+    auto,                  
+    >={Stealth[round]}     
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -958,11 +958,11 @@ The set of strings of odd length over \{\textit{a,b}\} that contain the substrin
 The set of strings of even length over \{\textit{a,b,c}\} that contain exactly one \textit{a}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,   
+    on grid,               
+    auto,                 
+    >={Stealth[round]}     
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -996,11 +996,11 @@ The set of strings of even length over \{\textit{a,b,c}\} that contain exactly o
 The set of strings over \{\textit{a,b,c}\} with an odd number of occurrences of the substring \textit{ab}.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,          
+    node distance=2.5cm,    
+    on grid,               
+    auto,                   
+    >={Stealth[round]}     
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -1031,11 +1031,11 @@ The set of strings over \{\textit{a,b,c}\} with an odd number of occurrences of 
 The set of strings of odd length over \{\textit{a,b}\} that contain exactly two \textit{b}'s.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,   
+    on grid,              
+    auto,                  
+    >={Stealth[round]}      
 ]
 
     % --- 1. DEFINE THE STATES ---
@@ -1071,11 +1071,11 @@ The set of strings of odd length over \{\textit{a,b}\} that contain exactly two 
 The set of strings over \{\textit{a,b}\} with an even number of \textit{a}'s or an odd number of \textit{b}'s.
 
 \begin{tikzpicture}[
-    shorten >=1pt,          % Shortens arrows slightly so they don't touch node borders
-    node distance=2.5cm,    % Sets global spacing between states
-    on grid,                % Aligns positions based on center points instead of node borders
-    auto,                   % Smart placement of transition labels
-    >={Stealth[round]}      % Uses a clean, modern arrowhead style
+    shorten >=1pt,         
+    node distance=2.5cm,   
+    on grid,               
+    auto,                 
+    >={Stealth[round]}      
 ]
 
     % --- 1. DEFINE THE STATES ---
