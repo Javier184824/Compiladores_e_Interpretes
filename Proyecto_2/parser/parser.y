@@ -1,3 +1,10 @@
+%{
+#include <stdio.h>
+
+int yylex(void);
+void yyerror(const char *s);
+%}
+
 %token TOKEN_ID 63
 %token TOKEN_INTEGER 64
 %token TOKEN_FLOAT 65
@@ -130,8 +137,8 @@ unary_operator
         | TOKEN_MULT
         | TOKEN_PLUS
         | TOKEN_MINUS
-        | '~'
-        | '!'
+        | TOKEN_BITWISE_NOT
+        | TOKEN_NOT
         ;
 
 cast_expression
@@ -160,8 +167,8 @@ shift_expression
 
 relational_expression
         : shift_expression
-        | relational_expression '<' shift_expression
-        | relational_expression '>' shift_expression
+        | relational_expression TOKEN_LESS shift_expression
+        | relational_expression TOKEN_GREATER shift_expression
         | relational_expression TOKEN_LESS_EQUAL shift_expression
         | relational_expression TOKEN_GREATER_EQUAL shift_expression
         ;
@@ -179,7 +186,7 @@ and_expression
 
 exclusive_or_expression
         : and_expression
-        | exclusive_or_expression '^' and_expression
+        | exclusive_or_expression TOKEN_BITWISE_XOR and_expression
         ;
 
 inclusive_or_expression
@@ -495,14 +502,7 @@ function_definition
         ;
 
 %%
-#include <stdio.h>
-
-extern char yytext[];
-extern int column;
-
-yyerror(s)
-char *s;
+void yyerror(const char *s)
 {
-        fflush(stdout);
-        printf("\n%*s\n%*s\n", column, "^", column, s);
+    fprintf(stderr, "Error sintáctico: %s\n", s);
 }
