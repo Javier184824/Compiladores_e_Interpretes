@@ -1,5 +1,5 @@
 PARSER_C_&_H_FILES = $(wildcard parser/*.c parser/*.h)
-SCANNER_C_FILES = $(wildcard scanner/*.c)
+SCANNER_C_FILES = $(wildcard scanner/scanner*.c)
 PREPROCESSOR_C_FILES = $(wildcard preprocessor/*.c)
 
 clear:
@@ -25,7 +25,7 @@ test:
 main: scanner parser
 	flex -o scanner/scanner.c scanner/scanner.l
 	bison -d parser/parser.y -o parser/parser.c
-	gcc -o main main.c scanner/scanner.c parser/parser.c
+	gcc -o main scanner/tokenizer.c scanner/scanner.c parser/parser.c
 
 preprocessor: $(PREPROCESSOR_C_FILES)
 	gcc -o preprocessor $(PREPROCESSOR_C_FILES)
