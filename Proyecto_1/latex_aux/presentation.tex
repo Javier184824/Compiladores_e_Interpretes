@@ -1,0 +1,285 @@
+\documentclass{beamer}
+
+\usepackage{pgfplots}
+\usepackage{pgf-pie}
+\usepackage{graphicx}
+
+\usepgfplotslibrary{statistics}
+\pgfplotsset{compat=1.18}
+
+\definecolor{dark_gray}{HTML}{121111}
+\definecolor{bright_orange}{HTML}{ffb717}
+
+\definecolor{pastel_yellow}{HTML}{fccb6f}
+\definecolor{pastel_blue}{HTML}{79c6fc}
+\definecolor{verde_lima}{HTML}{77fc65}
+\definecolor{rosado_gay}{HTML}{e05a89}
+\definecolor{cafe_claro}{HTML}{e0905a}
+\definecolor{purpl_pikmin}{HTML}{a24ff0}
+
+\setbeamercolor{background canvas}{bg=dark_gray}
+\setbeamercolor{normal text}{fg=white}
+\setbeamercolor{title}{fg=bright_orange}
+\setbeamercolor{frametitle}{fg=bright_orange}
+\setbeamercolor{structure}{fg=bright_orange}
+
+\setbeamertemplate{frametitle}{
+
+    %\hspace*{-0.8cm}
+    \centering
+    \insertframetitle
+    \vspace{0.2cm}
+
+    \nointerlineskip
+    \hspace*{-2cm}
+    {\color{bright_orange}\rule{\dimexpr\paperwidth+1cm}{2pt}}
+
+    \vspace{0.1cm}
+}
+
+\setbeamertemplate{footline}{
+    \begin{beamercolorbox}[wd=\paperwidth, ht=2pt]{footline}
+        \color{bright_orange}\rule{\paperwidth}{2pt}
+    \end{beamercolorbox}
+    \vspace{0.4cm}
+}
+
+\newcommand{\StyleError}{\color{red}}
+\newcommand{\StyleKeyword}{\color{pastel_blue}}
+\newcommand{\StyleIdentifier}{\color{white}}
+\newcommand{\StyleLiteral}{\color{pastel_yellow}}
+\newcommand{\StyleString}{\color{verde_lima}}
+\newcommand{\StyleOperator}{\color{rosado_gay}}
+\newcommand{\StylePunctuator}{\color{cafe_claro}}
+
+% para usar los estilos
+\newcommand{\Error}[1]{{\StyleError #1}}
+\newcommand{\Keyword}[1]{{\StyleKeyword #1}}
+\newcommand{\Identifier}[1]{{\StyleIdentifier #1}}
+\newcommand{\Literal}[1]{{\StyleLiteral #1}}
+\newcommand{\String}[1]{{\StyleString #1}}
+\newcommand{\Operator}[1]{{\StyleOperator #1}}
+\newcommand{\Punctuator}[1]{{\StylePunctuator #1}}
+
+\setbeamertemplate{navigation symbols}{}
+
+% MAXIMO LINEAS POR SLIDE
+\newcommand{\SourceLinesPerSlide}{20}
+
+\newcommand{\SourceFrameTitle}{Source code}
+\newcommand{\SourceFont}{\ttfamily\scriptsize} % font
+\newcommand{\SrcTab}{\ \ \ \ } % tabs
+\newcommand{\SrcWrapIndent}{2em} % sangría de las líneas que continúan
+\newcommand{\SrcBreak}{\penalty 20 } % lo mismo
+
+\newcounter{srcvisual} % líneas en slide
+\newcounter{srcpart} % numero de diapositiva
+\newtoks\srcbuffer % buffer para linea
+\newsavebox{\srcbox} % cada para medir tamaño del codigo
+
+
+% Configuración para mostrar las líneas de código.
+\newcommand{\SrcSetup}{
+    \SourceFont \hyphenchar\font=-1
+    \hsize=\textwidth \parindent=0pt
+    \tolerance=10000 \pretolerance=-1
+    \rightskip=0pt plus 1fil
+    \hangindent=\SrcWrapIndent \hangafter=1
+}
+
+%mostrar linea de codigo
+\newcommand{\SrcRenderLine}[1]{{\SrcSetup \strut #1\par}}
+
+% medir cuanto espacio ocupa una linea
+\newcommand{\SrcMeasure}[1]{%
+    \setbox\srcbox\vbox{\SrcRenderLine{#1}\xdef\SrcNL{\the\prevgraf}}}
+
+\newcommand{\SrcEmitFrame}{%
+    \stepcounter{srcpart}%
+    \begin{frame}[t]{\SourceFrameTitle{} (\arabic{srcpart})}
+        \the\srcbuffer
+    \end{frame}%
+    \global\srcbuffer{}%
+    \setcounter{srcvisual}{0}%
+}
+
+% crea slide con lo q hay en buffer
+\newcommand{\SrcFlush}{\ifnum\value{srcvisual}>0\expandafter\SrcEmitFrame\fi}
+
+% para cada linea de codigo en source
+\newcommand{\SrcLine}[1]{%
+    \SrcMeasure{#1}%
+
+    % si no cabe linea completa
+    \ifnum\numexpr\value{srcvisual}+\SrcNL\relax>\SourceLinesPerSlide\relax
+        \expandafter\SrcFlush
+    \fi
+    \global\srcbuffer\expandafter{\the\srcbuffer\SrcRenderLine{#1}}%
+    \addtocounter{srcvisual}{\SrcNL}%
+    \ifnum\value{srcvisual}<\SourceLinesPerSlide\relax\else\expandafter\SrcFlush\fi
+}
+
+% comando d input para el codigo fuente
+\newcommand{\ShowSourceCode}[1]{%
+    \setcounter{srcvisual}{0}\setcounter{srcpart}{0}\global\srcbuffer{}%
+    \input{#1}%
+    \SrcFlush
+}
+
+\begin{document}
+
+\title{Project 01}
+\subtitle{Compilers \& Interpreters}
+\author{Javier Lee, Steven Loaíciga, Luan Valverde}
+\date{2026, semester II}
+
+\setbeamertemplate{headline}{
+    \vspace{0.4cm}
+    \begin{beamercolorbox}[wd=\paperwidth, ht=2pt]{footline}
+        \color{bright_orange}\rule{\paperwidth}{2pt}
+    \end{beamercolorbox}
+}
+
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\setbeamertemplate{headline}{}
+
+\begin{frame}{Scanning process}
+    Scanning, or \textit{lexical analysis}, is \textit{conceptually} the first phase in the compilation process.
+    \begin{itemize}
+        \item The \textit{scanner} receives the \textit{source code} as input.
+        \item It reads the entire file, character by character.
+        \item It groups these characters into \textit{tokens}.
+        \item These tokens are then sent to the parser via the getToken() function.
+    \end{itemize}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/scannerimg.png}
+% add image !!!!
+
+\end{frame}
+
+\begin{frame}{getToken() function}
+    This function is the main ----- of the scanner.
+    \begin{itemize}
+        \item The entire program is a string stored in the computer's memory.
+        \item The scanner keeps track of the current position.
+        \item It scans through the string until it forms an entire token.
+        \item It skips what is considered as "spaces" by the specific language...
+            \begin{itemize}
+                \item Line jumps, tabs, comments, ...
+            \end{itemize}
+    \end{itemize}
+    \centering
+\end{frame}
+
+\begin{frame}{Tokens}
+    Tokens are \textit{usually} a data structure with two fields or attributes: 
+    \begin{itemize}
+        \item It's \textit{token code}, which is a number that specifies if it is a variable, constant, comma, etc.
+        \item The \textit{lexeme}, which is usually a pointer to the particular string it refers to.
+    \end{itemize}
+    \centering
+\end{frame}
+
+\begin{frame}{Flex}
+    Flex is a toll for generating \textit{lexical analyzers} (scanners).
+    \begin{itemize}
+        \item It lets the user define the patterns that represent tokens using \textit{regular expressions}.
+        \item So instead of writing the scanner from scratch, Flex generates the corresponding C code.
+    \end{itemize}
+    \centering
+\end{frame}
+
+\begin{frame}{Flex (cont.)}
+    \begin{itemize}
+        \item Flex receives a file with the \textit{.l} extension.
+        \item This file contains the patterns and corresponding actions of the language.
+        \item Flex processes this file and generates a C file called \textit{lex.yy.c}
+        \item This file is the scanner, and it can be modified further by the user if they deem it necessary.
+    \end{itemize}
+\end{frame}
+
+% Múltiples slides con el programa fuente que le entró a la fase de scanning (i.e., después del preproceso)
+
+\begin{frame}{Source code}
+    The following slides contain the source code that was processsed by the scanner.
+\end{frame}
+
+\ShowSourceCode{latex_aux/source_code.tex}
+
+% ...
+
+% Histograma de las cantidades de cada tipo de token encontrados en el fuente.
+
+\begin{frame}{Statistics - Histogram}
+\centering
+\begin{tikzpicture}
+
+\begin{axis}[
+    ybar,
+    width=0.85\textwidth,
+    height=0.55\textheight,
+    bar width=30pt,
+    ylabel={Quantity},
+    symbolic x coords={
+        Keyword,
+        Identifier,
+        Literal,
+        String,
+        Operator,
+        Punctuator
+    },
+    xtick=data,
+    xtick style={draw=none},
+    ytick style={draw=white},
+    axis lines=left,
+    axis line style={-},
+    ymin=0,
+    enlarge y limits={upper,value=0.30},
+    enlarge x limits=0.20,
+    nodes near coords,
+    xticklabel style={
+        rotate=30,
+        anchor=east
+    },
+    tick label style={font=\small},
+]
+
+\addplot[ fill=pastel_yellow, draw=pastel_yellow
+] table[
+    x=Category,
+    y=Quantity,
+    col sep=space
+] {latex_aux/token_stats.dat};
+
+
+\end{axis}
+
+\end{tikzpicture}
+
+\end{frame}
+
+% Gr´afico de pastel de las categor´ıas l´exicas encontradas (misma informaci´on que el histograma).
+
+\begin{frame}{Statistics - Pie chart}
+\begin{center}
+\input{latex_aux/pie_chart.tex}
+\end{center}
+\end{frame}
+
+% finall
+
+\setbeamertemplate{headline}{
+    \vspace{0.4cm}
+    \begin{beamercolorbox}[wd=\paperwidth, ht=2pt]{footline}
+        \color{bright_orange}\rule{\paperwidth}{2pt}
+    \end{beamercolorbox}
+}
+
+\begin{frame}
+    That's all. Thank you for reading this presentation.
+\end{frame}
+
+\end{document}

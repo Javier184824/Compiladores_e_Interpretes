@@ -1,3 +1,4 @@
+#if 0
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -134,6 +135,93 @@ Token Get_Token(void)
     return token_actual;
 }
 
+void paste_in_latex(const char *texto)
+{
+    for (; *texto != '\0'; texto++) {
+        switch (*texto) {
+            case ' ':  
+                fputs("\\ ", source_code); 
+                break;
+
+            case '\t': 
+                fputs("\\SrcTab{}", source_code); 
+                break;
+
+            case '\\': 
+                fputs("\\textbackslash{}", source_code); 
+                break;
+
+            case '{':  
+                fputs("\\{", source_code); 
+                break;
+
+            case '}':  
+                fputs("\\}", source_code); 
+                break;
+
+            case '$':  
+                fputs("\\$", source_code); 
+                break;
+
+            case '&':  
+                fputs("\\&", source_code); 
+                break;
+
+            case '#':  
+                fputs("\\#", source_code); 
+                break;
+
+            case '_':  
+                fputs("\\_", source_code); 
+                break;
+
+            case '%':  
+                fputs("\\%", source_code); 
+                break;
+
+            case '^':  
+                fputs("\\textasciicircum{}", source_code); 
+                break;
+
+            case '~':  
+                fputs("\\textasciitilde{}", source_code);  break;
+            default:   fputc(*texto, source_code);
+        }
+    }
+}
+
+void newline_latex(void) {
+    if (!linea_abierta) {
+        fputs("\\SrcLine{", source_code);
+        linea_abierta = true;
+    }
+}
+
+void endline_latex(void) {
+    newline_latex();
+    fputs("}\n", source_code);
+    linea_abierta = false;
+}
+
+
+// para escribir el token con su comando correcto
+void escribir_token(Token token) {
+    if (linea_abierta) {
+        fputs("\\SrcBreak{}", source_code);
+    }
+
+    newline_latex();
+    fprintf(source_code, "\\%s{", nombres_categorias[token.categoria]);
+    paste_in_latex(token.lexema);
+    fputs("}", source_code);
+}
+
+// para los tabs y espacios
+void spacing(const char *texto) {
+    newline_latex();
+    paste_in_latex(texto);
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -154,12 +242,6 @@ int main(int argc, char *argv[])
 
     close(fd);
 
-    if (!preprocess(argv[1], nombre_temporal)) {
-        fprintf(stderr, "Error durante el preprocesamiento\n");
-        return EXIT_FAILURE;
-    }
-
-    #if 0
     // ====== PARA PRUEBAS ======== -- lun
     // FASE 1: Preprocesamiento 
     if (!preprocess(argv[1], nombre_temporal)) {
@@ -177,24 +259,15 @@ int main(int argc, char *argv[])
 
     yyin = archivo_preprocesado;
 
-    if (archivo_preprocesado == NULL) {
-        perror("Error abriendo archivo preprocesado");
-        return EXIT_FAILURE;
-    }
-
 	// ====== fin PRUEBAS ======== -- lun
 
-    source_code = fopen("texs/source_code.tex", "w");
+    source_code = fopen("latex_aux/source_code.tex", "w");
 
     if (source_code == NULL) {
         perror("Error creando source_code.tex");
         fclose(archivo_preprocesado);
         return EXIT_FAILURE;
     }
-
-    //borrar - lun
-    fprintf(source_code, "\\begin{frame}[fragile]{Código fuente}\n");
-    fprintf(source_code, "\\begin{verbatim}\n");
 
     /* FASE 3: Obtener los tokens uno por uno */
     Token token;
@@ -203,40 +276,20 @@ int main(int argc, char *argv[])
         token = Get_Token();
 
         if (token.codigo != TOKEN_EOF) {
-            
-            fprintf(source_code, "%s", token.lexema);
-
-            printf(
-				"linea=%d, codigo=%d, lexema=%s",
-				token.linea,
-				token.codigo,
-				token.lexema
-			);
-
-            if (token.codigo == TOKEN_INTEGER) {
-                printf(", valor=%lld", token.valor_entero);
-            }
-
-            if (token.codigo == TOKEN_FLOAT) {
-                printf(", valor=%Lf", token.valor_flotante);
-            }
-
-            printf("\n");
+            escribir_token(token);
         }
 
     } while (token.codigo != TOKEN_EOF);
-    
-    //borrar !! -- lun
-    fprintf(source_code, "\\end{verbatim}\n");
-    fprintf(source_code, "\\end{frame}\n");
 
-    printf(
-        "Archivo preprocesado: %s\n",
-        nombre_temporal
-    );
+    fclose(archivo_preprocesado);
 
+    if (linea_abierta) {
+        endline_latex();
+    }
 
-    FILE *stats = fopen("token_stats.dat", "w");
+    fclose(source_code);
+
+    FILE *stats = fopen("latex_aux/token_stats.dat", "w");
 
     if (stats == NULL) {
         perror("Error creando token_stats.dat");
@@ -254,7 +307,7 @@ int main(int argc, char *argv[])
     fclose(stats);
 
 
-    FILE *stats2 = fopen("texs/pie_chart.tex", "w");
+    FILE *stats2 = fopen("latex_aux/pie_chart.tex", "w");
 
     if (stats2 == NULL) {
         perror("Error creando pie_chart.tex");
@@ -291,9 +344,11 @@ int main(int argc, char *argv[])
     fprintf(stats2, "\t}\n");
     fprintf(stats2, "\\end{tikzpicture}\n");
 
-
     fclose(stats2);
-    #endif
+
+    system("pdflatex -output-directory=results latex_aux/presentation.tex");
+    //system("evince --presentation ../Proyecto_1/results/presentaion.pdf");
 
     return EXIT_SUCCESS;
 }
+    #endif

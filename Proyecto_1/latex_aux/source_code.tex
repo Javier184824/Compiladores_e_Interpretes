@@ -1,0 +1,184 @@
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\Operator{<}\SrcBreak{}\Identifier{stdio}\SrcBreak{}\Punctuator{.}\SrcBreak{}\Identifier{h}\SrcBreak{}\Operator{>}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\Operator{<}\SrcBreak{}\Identifier{stdlib}\SrcBreak{}\Punctuator{.}\SrcBreak{}\Identifier{h}\SrcBreak{}\Operator{>}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\Operator{<}\SrcBreak{}\Identifier{ctype}\SrcBreak{}\Punctuator{.}\SrcBreak{}\Identifier{h}\SrcBreak{}\Operator{>}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\Operator{<}\SrcBreak{}\Identifier{string}\SrcBreak{}\Punctuator{.}\SrcBreak{}\Identifier{h}\SrcBreak{}\Operator{>}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\String{"..headersscanner.h"}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\String{"..headersparser.h"}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\String{"..headerssemantic\_records.h"}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\String{"..headerssemantic\_routines.h"}}
+\SrcLine{\Punctuator{\#}\SrcBreak{}\Identifier{include}\ \SrcBreak{}\String{"..headersgenerate.h"}}
+\SrcLine{}
+\SrcLine{\Identifier{token}\ \SrcBreak{}\Identifier{current\_token}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Keyword{static}\ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{lookahead}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Keyword{static}\ \SrcBreak{}\Keyword{int}\ \SrcBreak{}\Identifier{has\_lookahead}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Literal{0}\SrcBreak{}\Punctuator{;}}
+\SrcLine{}
+\SrcLine{\Identifier{token}\ \SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Keyword{void}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{if}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{!}\SrcBreak{}\Identifier{has\_lookahead}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{lookahead}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{scanner}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{has\_lookahead}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Literal{1}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{return}\ \SrcBreak{}\Identifier{lookahead}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{t}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{received}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{char}\SrcBreak{}\Operator{*}\ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{extract\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{t}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ }
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{if}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{received}\ \SrcBreak{}\Operator{==}\ \SrcBreak{}\Identifier{t}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{current\_token}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{received}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{has\_lookahead}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Literal{0}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{else}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{fprintf}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{stderr}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\String{"Syntax\ error\ at\ line\ \%d:\ expected\ token\ \%s\textbackslash{}n"}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{line}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{token}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{syntax\_error}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{received}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{syntax\_error}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{char}\SrcBreak{}\Operator{*}\ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{extract\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{fprintf}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{stderr}\SrcBreak{}\Punctuator{,}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\String{"Syntax\ error\ at\ line\ \%d:\ unexpected\ token\ \%s\textbackslash{}n"}\SrcBreak{}\Punctuator{,}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{line}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{token}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{remove}\SrcBreak{}\Punctuator{(}\SrcBreak{}\String{"data\_file"}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{remove}\SrcBreak{}\Punctuator{(}\SrcBreak{}\String{"bss\_file"}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{remove}\SrcBreak{}\Punctuator{(}\SrcBreak{}\String{"text\_file"}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{exit}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{EXIT\_FAILURE}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{id\_list}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Keyword{void}\SrcBreak{}\Punctuator{)}}
+\SrcLine{\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Identifier{id}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{ident}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{id}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ }
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{read\_id}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{id}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ }
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{while}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Operator{==}\ \SrcBreak{}\Identifier{COMMA}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}\ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{COMMA}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ }
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{ident}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{id}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{read\_id}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{id}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{add\_op}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{op\_rec}\ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{tok}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{if}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\ \SrcBreak{}\Operator{==}\ \SrcBreak{}\Identifier{PLUSOP}\SrcBreak{}\Operator{||}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Operator{==}\SrcBreak{}\Identifier{MINUSOP}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{process\_op}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \SrcBreak{}\Punctuator{\}}\ \SrcBreak{}\Keyword{else}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{syntax\_error}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{primary}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{tok}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{switch}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{LPAREN}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Identifier{e1}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{e2}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{e3}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{LPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{e1}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{if}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Operator{==}\SrcBreak{}\Identifier{CONDITIONAL}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{CONDITIONAL}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{e2}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{CONDITIONAL}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{e3}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{RPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{gen\_conditional}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{e1}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{e2}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{e3}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{else}\SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{RPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{e1}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{ID}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{ID}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{process\_id}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{INTLITERAL}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{INTLITERAL}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{process\_literal}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{default}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{syntax\_error}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Identifier{left\_operand}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{right\_operand}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{op\_rec}\ \SrcBreak{}\Identifier{op}\SrcBreak{}\Punctuator{;}}
+\SrcLine{}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{primary}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\ \SrcBreak{}\Identifier{left\_operand}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{while}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Operator{==}\ \SrcBreak{}\Identifier{PLUSOP}\ \SrcBreak{}\Operator{||}\ \SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Operator{==}\ \SrcBreak{}\Identifier{MINUSOP}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{add\_op}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\ \SrcBreak{}\Identifier{op}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{primary}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\ \SrcBreak{}\Identifier{right\_operand}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{left\_operand}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{gen\_infix}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{left\_operand}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{op}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{right\_operand}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{left\_operand}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{expr\_list}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Keyword{void}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Identifier{expresion}\SrcBreak{}\Punctuator{;}\ }
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{expresion}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ \ \ \ \ \SrcBreak{}\Identifier{write\_expr}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{expresion}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ }
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{while}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Operator{==}\SrcBreak{}\Identifier{COMMA}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{\{}\ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{COMMA}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{expresion}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{write\_expr}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{expresion}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}\ }
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{ident}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{ID}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Operator{*}\SrcBreak{}\Identifier{result}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{process\_id}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{statement}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Keyword{void}\SrcBreak{}\Punctuator{)}}
+\SrcLine{\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{token}\ \SrcBreak{}\Identifier{tok}\ \SrcBreak{}\Operator{=}\ \SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{switch}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{ID}\SrcBreak{}\Punctuator{:}\ }
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Identifier{target}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expr\_rec}\ \SrcBreak{}\Identifier{source}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{ident}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{target}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{ASSIGNOP}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expression}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Operator{\&}\SrcBreak{}\Identifier{source}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{assign}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{target}\SrcBreak{}\Punctuator{,}\ \SrcBreak{}\Identifier{source}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{SEMICOLON}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{READ}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{READ}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{LPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{id\_list}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{RPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{SEMICOLON}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{WRITE}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{WRITE}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{LPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{expr\_list}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{RPAREN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{SEMICOLON}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{default}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{syntax\_error}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{tok}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{statement\_list}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Keyword{void}\SrcBreak{}\Punctuator{)}}
+\SrcLine{\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{statement}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{}
+\SrcLine{\ \ \ \ \SrcBreak{}\Keyword{while}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Literal{1}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{switch}\ \SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{next\_token}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{)}\ \SrcBreak{}\Punctuator{\{}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{ID}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{READ}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{case}\ \SrcBreak{}\Identifier{WRITE}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Identifier{statement}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{break}\SrcBreak{}\Punctuator{;}}
+\SrcLine{}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{default}\SrcBreak{}\Punctuator{:}}
+\SrcLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \SrcBreak{}\Keyword{return}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Punctuator{\}}}
+\SrcLine{\Punctuator{\}}}
+\SrcLine{}
+\SrcLine{\Keyword{void}\ \SrcBreak{}\Identifier{program}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Keyword{void}\SrcBreak{}\Punctuator{)}}
+\SrcLine{\Punctuator{\{}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{start}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{BEGIN}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{statement\_list}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\ \ \ \ \SrcBreak{}\Identifier{match}\SrcBreak{}\Punctuator{(}\SrcBreak{}\Identifier{END}\SrcBreak{}\Punctuator{)}\SrcBreak{}\Punctuator{;}}
+\SrcLine{\Punctuator{\}}}

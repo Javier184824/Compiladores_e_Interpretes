@@ -1,6 +1,8 @@
 #ifndef TOKENIZER_H
 #define TOKENIZER_H
 
+#include <stdbool.h>
+
 typedef enum {
     TOKEN_EOF = 0,
 
@@ -164,6 +166,16 @@ static Token token_actual;
 static int contador_tokens[7] = {0};
 static int total_tokens = 0;
 static FILE *source_code;
+static bool linea_abierta = false;
+static const char *nombres_categorias[] = {
+    "Error",
+    "Keyword",
+    "Identifier",
+    "Literal",
+    "String",
+    "Operator",
+    "Punctuator"
+};
 
 int remove_comments(const char* source_file_path, const char *output_file_path);
 int preprocess(const char *source_file_path, const char *output_file_path);
@@ -171,5 +183,10 @@ Token Get_Token(void);
 void guardar_token(int codigo, CategoriaToken categoria);
 void limpiar_separadores(const char *origen, char *destino);
 long long convertir_entero(const char *lexema);
+void paste_in_latex(const char *texto);
+void newline_latex(void);
+void endline_latex(void);
+void spacing(const char *texto);
+void escribir_token(Token token);
 
 #endif
