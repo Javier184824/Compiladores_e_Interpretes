@@ -3,7 +3,11 @@
 
 int yylex(void);
 void yyerror(const char *s);
+
+extern int yylineno; 
 %}
+
+%define parse-error verbose
 
 %token TOKEN_ID 63
 %token TOKEN_INTEGER 64
@@ -502,7 +506,6 @@ function_definition
         ;
 
 %%
-void yyerror(const char *s)
-{
-    fprintf(stderr, "Error sintáctico: %s\n", s);
+void yyerror(const char *s) {
+    fprintf(stderr, "Syntax Error at line %d: %s\n", yylineno, s);
 }

@@ -15,16 +15,16 @@ scanner: scanner/scanner.c
 	flex -o scanner/scanner.c scanner/scanner.l
 
 parser: parser/parser.c
-	bison -d parser/parser.y -o parser/parser.c
+	bison -y -Wno-yacc -d parser/parser.y -o parser/parser.c
 
 test:
 	flex -o scanner/scanner_test.c scanner/scanner_test.l
-	bison -d parser/parser_test.y -o parser/parser_test.c
+	bison -y -Wno-yacc -d parser/parser_test.y -o parser/parser_test.c
 	gcc -o test main.c scanner/scanner_test.c parser/parser_test.c
 
 main: scanner parser
 	flex -o scanner/scanner.c scanner/scanner.l
-	bison -d parser/parser.y -o parser/parser.c
+	bison -y -Wno-yacc -d parser/parser.y -o parser/parser.c
 	gcc -o main main.c scanner/tokenizer.c scanner/scanner.c parser/parser.c
 
 preprocessor:

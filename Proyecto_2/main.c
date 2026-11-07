@@ -1,16 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//int yyparse();
-int match_word(FILE *source_fptr, const char *word);
+int yyparse();  // Uncomment this if using the command: make main
+
+extern FILE *yyin;  // Uncomment this if using the command: make main  
+
+//int match_word(FILE *source_fptr, const char *word);  // Uncomment this if using the command: make preprocessor
 
 int main(int argc, char *argv[]) {
-    //return yyparse();
-    FILE *source_fptr = fopen("inputs/input.txt", "r");
+    if (argc == 1) {
+        fprintf(stderr, "The program needs at least one argument to work correctly\n");
+        return EXIT_FAILURE;
+    }
+    FILE *source_fptr = fopen(argv[1], "r");
     if (source_fptr == NULL) {
         fprintf(stderr, "Error opening the source file\n");
         return EXIT_FAILURE;
     }
-    printf("%d\n", match_word(source_fptr, "hola"));
-    return 0;
+    
+    yyin = source_fptr;
+
+    return yyparse(); // Uncomment this if using the command: make main
 }
