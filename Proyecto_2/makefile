@@ -20,12 +20,12 @@ parser: parser/parser.c
 test:
 	flex -o scanner/scanner_test.c scanner/scanner_test.l
 	bison -d parser/parser_test.y -o parser/parser_test.c
-	gcc -o test scanner/scanner_test.c parser/parser_test.c
+	gcc -o test main.c scanner/scanner_test.c parser/parser_test.c
 
 main: scanner parser
 	flex -o scanner/scanner.c scanner/scanner.l
 	bison -d parser/parser.y -o parser/parser.c
-	gcc -o main scanner/tokenizer.c scanner/scanner.c parser/parser.c
+	gcc -o main main.c scanner/tokenizer.c scanner/scanner.c parser/parser.c
 
 preprocessor: $(PREPROCESSOR_C_FILES)
 	gcc -o preprocessor $(PREPROCESSOR_C_FILES)
