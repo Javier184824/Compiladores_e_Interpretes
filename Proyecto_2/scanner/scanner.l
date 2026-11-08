@@ -6,6 +6,7 @@
 #include "tokenizer.h"
 %}
 
+%option yylineno
 %option noyywrap
 
 DIGITO              [0-9]
@@ -217,12 +218,7 @@ MULTILINE_COMMENT   "/*"([^*]|\*+[^*/])*\*+"/"
 "%:%:"          { guardar_token(TOKEN_DOUBLE_HASH, PUNCTUATOR); return TOKEN_DOUBLE_HASH; }
 "%:"            { guardar_token(TOKEN_HASH, PUNCTUATOR); return TOKEN_HASH; }
 
-[ ]+ { fprintf(source_code, "%s", yytext); }
-\t  { fprintf(source_code, "\t"); }
-\r  { fprintf(source_code, "\r"); }
-\v  { fprintf(source_code, "\v"); }
-\f  { fprintf(source_code, "\f"); }
-\n  { fprintf(source_code, "\n"); }
+[ \t\r\v\f\n]+   { /* Ignorar espacios y saltos de línea. */ }
 
 . {
     guardar_token(TOKEN_LEXICAL_ERROR, ERROR);

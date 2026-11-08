@@ -162,10 +162,9 @@ extern int yylineno;
 extern FILE *yyin;
 extern int yylex (void);
 
-static Token token_actual;
-static int contador_tokens[7] = {0};
-static int total_tokens = 0;
-static FILE *source_code;
+extern Token token_actual;
+extern int contador_tokens[8];
+extern int total_tokens;
 
 int remove_comments(const char* source_file_path, const char *output_file_path);
 int preprocess(const char *source_file_path, const char *output_file_path);

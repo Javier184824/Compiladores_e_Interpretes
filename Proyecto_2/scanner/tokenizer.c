@@ -4,6 +4,10 @@
 #include <unistd.h>
 #include "tokenizer.h"
 
+Token token_actual = {0};
+int contador_tokens[8] = {0};
+int total_tokens = 0;
+
 void limpiar_separadores(const char *origen, char *destino)
 {
     while (*origen != '\0') {
