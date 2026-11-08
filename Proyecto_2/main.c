@@ -3,7 +3,8 @@
 
 int yyparse();  // Uncomment this if using the command: make main
 
-extern FILE *yyin;  // Uncomment this if using the command: make main  
+extern FILE *yyin;  // Uncomment this if using the command: make main 
+extern int yydebug; // Uncomment this if using the command: make main 
 
 //int match_word(FILE *source_fptr, const char *word);  // Uncomment this if using the command: make preprocessor
 
@@ -17,6 +18,8 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Error opening the source file\n");
         return EXIT_FAILURE;
     }
+
+    yydebug = 1;
     
     yyin = source_fptr;
 

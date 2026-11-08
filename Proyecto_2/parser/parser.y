@@ -7,7 +7,9 @@ void yyerror(const char *s);
 extern int yylineno; 
 %}
 
-%define parse-error verbose
+%define parse.trace
+
+%define parse.error verbose
 
 %token TOKEN_ID 63
 %token TOKEN_INTEGER 64
