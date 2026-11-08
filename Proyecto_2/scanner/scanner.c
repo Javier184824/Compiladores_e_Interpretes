@@ -1046,10 +1046,35 @@ char *yytext;
 #include <string.h>
 #include <unistd.h>
 #include "tokenizer.h"
-#line 1050 "scanner/scanner.c"
+#include "../parser/location.h"
+
+int current_column = 1;
+int current_line = 1;
+
+// to update the locations in the parser
+static void update_location(void) {
+    yylloc.first_line = current_line;
+    yylloc.first_column = current_column;
+
+    for (int i = 0; i < yyleng; i++) {
+        if (yytext[i] == '\n') {
+            current_line++;
+            current_column = 1;
+        } else {
+            current_column++;
+        }
+    }
+
+    yylloc.last_line = current_line;
+    yylloc.last_column = current_column - 1;
+}
+
+#define YY_USER_ACTION update_location();
+
+#line 1075 "scanner/scanner.c"
 /* Entero */
 /* Flotante */
-#line 1053 "scanner/scanner.c"
+#line 1078 "scanner/scanner.c"
 
 #define INITIAL 0
 
@@ -1269,10 +1294,10 @@ YY_DECL
 		}
 
 	{
-#line 59 "scanner/scanner.l"
+#line 84 "scanner/scanner.l"
 
 
-#line 1276 "scanner/scanner.c"
+#line 1301 "scanner/scanner.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1343,348 +1368,348 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 61 "scanner/scanner.l"
+#line 86 "scanner/scanner.l"
 { guardar_token(TOKEN_SYSTEM_INCLUDE, PREPROCESS); return TOKEN_SYSTEM_INCLUDE; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 63 "scanner/scanner.l"
+#line 88 "scanner/scanner.l"
 { guardar_token(TOKEN_LOCAL_INCLUDE, PREPROCESS); return TOKEN_LOCAL_INCLUDE; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 65 "scanner/scanner.l"
+#line 90 "scanner/scanner.l"
 { guardar_token(FUNCTION_MACRO, PREPROCESS); return FUNCTION_MACRO; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 67 "scanner/scanner.l"
+#line 92 "scanner/scanner.l"
 { guardar_token(OBJECT_MACRO, PREPROCESS); return OBJECT_MACRO; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 69 "scanner/scanner.l"
+#line 94 "scanner/scanner.l"
 { guardar_token(SINGLE_LINE_COMMENT, PREPROCESS); return SINGLE_LINE_COMMENT; }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 71 "scanner/scanner.l"
+#line 96 "scanner/scanner.l"
 { guardar_token(MULTILINE_COMMENT, PREPROCESS); return MULTILINE_COMMENT; }
 	YY_BREAK
 /* Palabras reservadas */
 case 7:
 YY_RULE_SETUP
-#line 74 "scanner/scanner.l"
+#line 99 "scanner/scanner.l"
 { guardar_token(TOKEN_AUTO, KEYWORD); return TOKEN_AUTO; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 75 "scanner/scanner.l"
+#line 100 "scanner/scanner.l"
 { guardar_token(TOKEN_BREAK, KEYWORD); return TOKEN_BREAK; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 76 "scanner/scanner.l"
+#line 101 "scanner/scanner.l"
 { guardar_token(TOKEN_CASE, KEYWORD); return TOKEN_CASE; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 77 "scanner/scanner.l"
+#line 102 "scanner/scanner.l"
 { guardar_token(TOKEN_CHAR_KEYWORD, KEYWORD); return TOKEN_CHAR_KEYWORD; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 78 "scanner/scanner.l"
+#line 103 "scanner/scanner.l"
 { guardar_token(TOKEN_CONST, KEYWORD); return TOKEN_CONST; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 79 "scanner/scanner.l"
+#line 104 "scanner/scanner.l"
 { guardar_token(TOKEN_CONTINUE, KEYWORD); return TOKEN_CONTINUE; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 80 "scanner/scanner.l"
+#line 105 "scanner/scanner.l"
 { guardar_token(TOKEN_DEFAULT, KEYWORD); return TOKEN_DEFAULT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 81 "scanner/scanner.l"
+#line 106 "scanner/scanner.l"
 { guardar_token(TOKEN_DO, KEYWORD); return TOKEN_DO; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 82 "scanner/scanner.l"
+#line 107 "scanner/scanner.l"
 { guardar_token(TOKEN_DOUBLE_KEYWORD, KEYWORD); return TOKEN_DOUBLE_KEYWORD; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 83 "scanner/scanner.l"
+#line 108 "scanner/scanner.l"
 { guardar_token(TOKEN_ELSE, KEYWORD); return TOKEN_ELSE; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 84 "scanner/scanner.l"
+#line 109 "scanner/scanner.l"
 { guardar_token(TOKEN_ENUM, KEYWORD); return TOKEN_ENUM; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 85 "scanner/scanner.l"
+#line 110 "scanner/scanner.l"
 { guardar_token(TOKEN_EXTERN, KEYWORD); return TOKEN_EXTERN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 86 "scanner/scanner.l"
+#line 111 "scanner/scanner.l"
 { guardar_token(TOKEN_FLOAT_KEYWORD, KEYWORD); return TOKEN_FLOAT_KEYWORD; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 87 "scanner/scanner.l"
+#line 112 "scanner/scanner.l"
 { guardar_token(TOKEN_FOR, KEYWORD); return TOKEN_FOR; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 88 "scanner/scanner.l"
+#line 113 "scanner/scanner.l"
 { guardar_token(TOKEN_GOTO, KEYWORD); return TOKEN_GOTO; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 89 "scanner/scanner.l"
+#line 114 "scanner/scanner.l"
 { guardar_token(TOKEN_IF, KEYWORD); return TOKEN_IF; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 90 "scanner/scanner.l"
+#line 115 "scanner/scanner.l"
 { guardar_token(TOKEN_INT_KEYWORD, KEYWORD); return TOKEN_INT_KEYWORD; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 91 "scanner/scanner.l"
+#line 116 "scanner/scanner.l"
 { guardar_token(TOKEN_LONG, KEYWORD); return TOKEN_LONG; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 92 "scanner/scanner.l"
+#line 117 "scanner/scanner.l"
 { guardar_token(TOKEN_REGISTER, KEYWORD); return TOKEN_REGISTER; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 93 "scanner/scanner.l"
+#line 118 "scanner/scanner.l"
 { guardar_token(TOKEN_RETURN, KEYWORD); return TOKEN_RETURN; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 94 "scanner/scanner.l"
+#line 119 "scanner/scanner.l"
 { guardar_token(TOKEN_SHORT, KEYWORD); return TOKEN_SHORT; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 95 "scanner/scanner.l"
+#line 120 "scanner/scanner.l"
 { guardar_token(TOKEN_SIGNED, KEYWORD); return TOKEN_SIGNED; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 96 "scanner/scanner.l"
+#line 121 "scanner/scanner.l"
 { guardar_token(TOKEN_SIZEOF, KEYWORD); return TOKEN_SIZEOF; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 97 "scanner/scanner.l"
+#line 122 "scanner/scanner.l"
 { guardar_token(TOKEN_STATIC, KEYWORD); return TOKEN_STATIC; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 98 "scanner/scanner.l"
+#line 123 "scanner/scanner.l"
 { guardar_token(TOKEN_STRUCT, KEYWORD); return TOKEN_STRUCT; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 99 "scanner/scanner.l"
+#line 124 "scanner/scanner.l"
 { guardar_token(TOKEN_SWITCH, KEYWORD); return TOKEN_SWITCH; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 100 "scanner/scanner.l"
+#line 125 "scanner/scanner.l"
 { guardar_token(TOKEN_TYPEDEF, KEYWORD); return TOKEN_TYPEDEF; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 101 "scanner/scanner.l"
+#line 126 "scanner/scanner.l"
 { guardar_token(TOKEN_UNION, KEYWORD); return TOKEN_UNION; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 102 "scanner/scanner.l"
+#line 127 "scanner/scanner.l"
 { guardar_token(TOKEN_UNSIGNED, KEYWORD); return TOKEN_UNSIGNED; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 103 "scanner/scanner.l"
+#line 128 "scanner/scanner.l"
 { guardar_token(TOKEN_VOID, KEYWORD); return TOKEN_VOID; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 104 "scanner/scanner.l"
+#line 129 "scanner/scanner.l"
 { guardar_token(TOKEN_VOLATILE, KEYWORD); return TOKEN_VOLATILE; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 105 "scanner/scanner.l"
+#line 130 "scanner/scanner.l"
 { guardar_token(TOKEN_WHILE, KEYWORD); return TOKEN_WHILE; }
 	YY_BREAK
 /* Palabras reservadas adicionales */
 case 39:
 YY_RULE_SETUP
-#line 108 "scanner/scanner.l"
+#line 133 "scanner/scanner.l"
 { guardar_token(TOKEN_ASM, KEYWORD); return TOKEN_ASM; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 109 "scanner/scanner.l"
+#line 134 "scanner/scanner.l"
 { guardar_token(TOKEN_FORTRAN, KEYWORD); return TOKEN_FORTRAN; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 110 "scanner/scanner.l"
+#line 135 "scanner/scanner.l"
 { guardar_token(TOKEN_INLINE, KEYWORD); return TOKEN_INLINE; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 111 "scanner/scanner.l"
+#line 136 "scanner/scanner.l"
 { guardar_token(TOKEN_RESTRICT, KEYWORD); return TOKEN_RESTRICT; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 112 "scanner/scanner.l"
+#line 137 "scanner/scanner.l"
 { guardar_token(TOKEN_BOOL_KEYWORD, KEYWORD); return TOKEN_BOOL_KEYWORD; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 113 "scanner/scanner.l"
+#line 138 "scanner/scanner.l"
 { guardar_token(TOKEN_COMPLEX, KEYWORD); return TOKEN_COMPLEX; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 114 "scanner/scanner.l"
+#line 139 "scanner/scanner.l"
 { guardar_token(TOKEN_IMAGINARY, KEYWORD); return TOKEN_IMAGINARY; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 115 "scanner/scanner.l"
+#line 140 "scanner/scanner.l"
 { guardar_token(TOKEN_ALIGNAS, KEYWORD); return TOKEN_ALIGNAS; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 116 "scanner/scanner.l"
+#line 141 "scanner/scanner.l"
 { guardar_token(TOKEN_ALIGNOF, KEYWORD); return TOKEN_ALIGNOF; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 117 "scanner/scanner.l"
+#line 142 "scanner/scanner.l"
 { guardar_token(TOKEN_ATOMIC, KEYWORD); return TOKEN_ATOMIC; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 118 "scanner/scanner.l"
+#line 143 "scanner/scanner.l"
 { guardar_token(TOKEN_GENERIC, KEYWORD); return TOKEN_GENERIC; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 119 "scanner/scanner.l"
+#line 144 "scanner/scanner.l"
 { guardar_token(TOKEN_NORETURN, KEYWORD); return TOKEN_NORETURN; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 120 "scanner/scanner.l"
+#line 145 "scanner/scanner.l"
 { guardar_token(TOKEN_STATIC_ASSERT, KEYWORD); return TOKEN_STATIC_ASSERT; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 121 "scanner/scanner.l"
+#line 146 "scanner/scanner.l"
 { guardar_token(TOKEN_THREAD_LOCAL, KEYWORD); return TOKEN_THREAD_LOCAL; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 122 "scanner/scanner.l"
+#line 147 "scanner/scanner.l"
 { guardar_token(TOKEN_ALIGNAS, KEYWORD); return TOKEN_ALIGNAS; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 123 "scanner/scanner.l"
+#line 148 "scanner/scanner.l"
 { guardar_token(TOKEN_ALIGNOF, KEYWORD); return TOKEN_ALIGNOF; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 124 "scanner/scanner.l"
+#line 149 "scanner/scanner.l"
 { guardar_token(TOKEN_BOOL_KEYWORD, KEYWORD); return TOKEN_BOOL_KEYWORD; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 125 "scanner/scanner.l"
+#line 150 "scanner/scanner.l"
 { guardar_token(TOKEN_CONSTEXPR, KEYWORD); return TOKEN_CONSTEXPR; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 126 "scanner/scanner.l"
+#line 151 "scanner/scanner.l"
 { guardar_token(TOKEN_FALSE, KEYWORD); return TOKEN_FALSE; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 127 "scanner/scanner.l"
+#line 152 "scanner/scanner.l"
 { guardar_token(TOKEN_NULLPTR, KEYWORD); return TOKEN_NULLPTR; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 128 "scanner/scanner.l"
+#line 153 "scanner/scanner.l"
 { guardar_token(TOKEN_STATIC_ASSERT, KEYWORD); return TOKEN_STATIC_ASSERT; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 129 "scanner/scanner.l"
+#line 154 "scanner/scanner.l"
 { guardar_token(TOKEN_THREAD_LOCAL, KEYWORD); return TOKEN_THREAD_LOCAL; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 130 "scanner/scanner.l"
+#line 155 "scanner/scanner.l"
 { guardar_token(TOKEN_TRUE, KEYWORD); return TOKEN_TRUE; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 131 "scanner/scanner.l"
+#line 156 "scanner/scanner.l"
 { guardar_token(TOKEN_TYPEOF, KEYWORD); return TOKEN_TYPEOF; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 132 "scanner/scanner.l"
+#line 157 "scanner/scanner.l"
 { guardar_token(TOKEN_TYPEOF_UNQUAL, KEYWORD); return TOKEN_TYPEOF_UNQUAL; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 133 "scanner/scanner.l"
+#line 158 "scanner/scanner.l"
 { guardar_token(TOKEN_BITINT, KEYWORD); return TOKEN_BITINT; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 134 "scanner/scanner.l"
+#line 159 "scanner/scanner.l"
 { guardar_token(TOKEN_DECIMAL32, KEYWORD); return TOKEN_DECIMAL32; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 135 "scanner/scanner.l"
+#line 160 "scanner/scanner.l"
 { guardar_token(TOKEN_DECIMAL64, KEYWORD); return TOKEN_DECIMAL64; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 136 "scanner/scanner.l"
+#line 161 "scanner/scanner.l"
 { guardar_token(TOKEN_DECIMAL128, KEYWORD); return TOKEN_DECIMAL128; }
 	YY_BREAK
 /* Literales e identificadores */
 case 68:
 YY_RULE_SETUP
-#line 139 "scanner/scanner.l"
+#line 164 "scanner/scanner.l"
 {
     char numero_limpio[strlen(yytext) + 1];
 
@@ -1697,7 +1722,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 149 "scanner/scanner.l"
+#line 174 "scanner/scanner.l"
 {
     guardar_token(TOKEN_INTEGER, LITERAL);
     token_actual.valor_entero = convertir_entero(yytext);
@@ -1707,306 +1732,306 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 156 "scanner/scanner.l"
+#line 181 "scanner/scanner.l"
 { guardar_token(TOKEN_CHARACTER, LITERAL); return TOKEN_CHARACTER; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 157 "scanner/scanner.l"
+#line 182 "scanner/scanner.l"
 { guardar_token(TOKEN_STRING, STRING); return TOKEN_STRING; }
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 158 "scanner/scanner.l"
+#line 183 "scanner/scanner.l"
 { guardar_token(TOKEN_ID, IDENTIFIER); return TOKEN_ID; }
 	YY_BREAK
 /* Operadores */
 case 73:
 YY_RULE_SETUP
-#line 161 "scanner/scanner.l"
+#line 186 "scanner/scanner.l"
 { guardar_token(TOKEN_LOGICAL_AND, OPERATOR); return TOKEN_LOGICAL_AND; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 162 "scanner/scanner.l"
+#line 187 "scanner/scanner.l"
 { guardar_token(TOKEN_LOGICAL_OR, OPERATOR); return TOKEN_LOGICAL_OR; }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 163 "scanner/scanner.l"
+#line 188 "scanner/scanner.l"
 { guardar_token(TOKEN_BITWISE_AND, OPERATOR); return TOKEN_BITWISE_AND; }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 164 "scanner/scanner.l"
+#line 189 "scanner/scanner.l"
 { guardar_token(TOKEN_BITWISE_OR, OPERATOR); return TOKEN_BITWISE_OR; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 165 "scanner/scanner.l"
+#line 190 "scanner/scanner.l"
 { guardar_token(TOKEN_BITWISE_XOR, OPERATOR); return TOKEN_BITWISE_XOR; }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 166 "scanner/scanner.l"
+#line 191 "scanner/scanner.l"
 { guardar_token(TOKEN_BITWISE_NOT, OPERATOR); return TOKEN_BITWISE_NOT; }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 167 "scanner/scanner.l"
+#line 192 "scanner/scanner.l"
 { guardar_token(TOKEN_NOT, OPERATOR); return TOKEN_NOT; }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 168 "scanner/scanner.l"
+#line 193 "scanner/scanner.l"
 { guardar_token(TOKEN_INCREMENT, OPERATOR); return TOKEN_INCREMENT; }
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 169 "scanner/scanner.l"
+#line 194 "scanner/scanner.l"
 { guardar_token(TOKEN_DECREMENT, OPERATOR); return TOKEN_DECREMENT; }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 170 "scanner/scanner.l"
+#line 195 "scanner/scanner.l"
 { guardar_token(TOKEN_PLUS, OPERATOR); return TOKEN_PLUS; }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 171 "scanner/scanner.l"
+#line 196 "scanner/scanner.l"
 { guardar_token(TOKEN_MINUS, OPERATOR); return TOKEN_MINUS; }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 172 "scanner/scanner.l"
+#line 197 "scanner/scanner.l"
 { guardar_token(TOKEN_MULT, OPERATOR); return TOKEN_MULT; }
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 173 "scanner/scanner.l"
+#line 198 "scanner/scanner.l"
 { guardar_token(TOKEN_DIV, OPERATOR); return TOKEN_DIV; }
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 174 "scanner/scanner.l"
+#line 199 "scanner/scanner.l"
 { guardar_token(TOKEN_MOD, OPERATOR); return TOKEN_MOD; }
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 175 "scanner/scanner.l"
+#line 200 "scanner/scanner.l"
 { guardar_token(TOKEN_EQUAL, OPERATOR); return TOKEN_EQUAL; }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 176 "scanner/scanner.l"
+#line 201 "scanner/scanner.l"
 { guardar_token(TOKEN_DIFFERENT, OPERATOR); return TOKEN_DIFFERENT; }
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 177 "scanner/scanner.l"
+#line 202 "scanner/scanner.l"
 { guardar_token(TOKEN_LESS_EQUAL, OPERATOR); return TOKEN_LESS_EQUAL; }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 178 "scanner/scanner.l"
+#line 203 "scanner/scanner.l"
 { guardar_token(TOKEN_GREATER_EQUAL, OPERATOR); return TOKEN_GREATER_EQUAL; }
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 179 "scanner/scanner.l"
+#line 204 "scanner/scanner.l"
 { guardar_token(TOKEN_LESS, OPERATOR); return TOKEN_LESS; }
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 180 "scanner/scanner.l"
+#line 205 "scanner/scanner.l"
 { guardar_token(TOKEN_GREATER, OPERATOR); return TOKEN_GREATER; }
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 181 "scanner/scanner.l"
+#line 206 "scanner/scanner.l"
 { guardar_token(TOKEN_ASSIGN, OPERATOR); return TOKEN_ASSIGN; }
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 182 "scanner/scanner.l"
+#line 207 "scanner/scanner.l"
 { guardar_token(TOKEN_PLUS_ASSIGN, OPERATOR); return TOKEN_PLUS_ASSIGN; }
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 183 "scanner/scanner.l"
+#line 208 "scanner/scanner.l"
 { guardar_token(TOKEN_MINUS_ASSIGN, OPERATOR); return TOKEN_MINUS_ASSIGN; }
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 184 "scanner/scanner.l"
+#line 209 "scanner/scanner.l"
 { guardar_token(TOKEN_MULT_ASSIGN, OPERATOR); return TOKEN_MULT_ASSIGN; }
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 185 "scanner/scanner.l"
+#line 210 "scanner/scanner.l"
 { guardar_token(TOKEN_DIV_ASSIGN, OPERATOR); return TOKEN_DIV_ASSIGN; }
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 186 "scanner/scanner.l"
+#line 211 "scanner/scanner.l"
 { guardar_token(TOKEN_MOD_ASSIGN, OPERATOR); return TOKEN_MOD_ASSIGN; }
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 187 "scanner/scanner.l"
+#line 212 "scanner/scanner.l"
 { guardar_token(TOKEN_AND_ASSIGN, OPERATOR); return TOKEN_AND_ASSIGN; }
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 188 "scanner/scanner.l"
+#line 213 "scanner/scanner.l"
 { guardar_token(TOKEN_OR_ASSIGN, OPERATOR); return TOKEN_OR_ASSIGN; }
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 189 "scanner/scanner.l"
+#line 214 "scanner/scanner.l"
 { guardar_token(TOKEN_XOR_ASSIGN, OPERATOR); return TOKEN_XOR_ASSIGN; }
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 190 "scanner/scanner.l"
+#line 215 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_SHIFT_ASSIGN, OPERATOR); return TOKEN_LEFT_SHIFT_ASSIGN; }
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 191 "scanner/scanner.l"
+#line 216 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_SHIFT_ASSIGN, OPERATOR); return TOKEN_RIGHT_SHIFT_ASSIGN; }
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 192 "scanner/scanner.l"
+#line 217 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_SHIFT, OPERATOR); return TOKEN_LEFT_SHIFT; }
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 193 "scanner/scanner.l"
+#line 218 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_SHIFT, OPERATOR); return TOKEN_RIGHT_SHIFT; }
 	YY_BREAK
 /* Puntuadores */
 case 106:
 YY_RULE_SETUP
-#line 196 "scanner/scanner.l"
+#line 221 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_PAREN, PUNCTUATOR); return TOKEN_LEFT_PAREN; }
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 197 "scanner/scanner.l"
+#line 222 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_PAREN, PUNCTUATOR); return TOKEN_RIGHT_PAREN; }
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 198 "scanner/scanner.l"
+#line 223 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_CURLY, PUNCTUATOR); return TOKEN_LEFT_CURLY; }
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 199 "scanner/scanner.l"
+#line 224 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_CURLY, PUNCTUATOR); return TOKEN_RIGHT_CURLY; }
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 200 "scanner/scanner.l"
+#line 225 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_SQUARE, PUNCTUATOR); return TOKEN_LEFT_SQUARE; }
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 201 "scanner/scanner.l"
+#line 226 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_SQUARE, PUNCTUATOR); return TOKEN_RIGHT_SQUARE; }
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 202 "scanner/scanner.l"
+#line 227 "scanner/scanner.l"
 { guardar_token(TOKEN_ARROW, PUNCTUATOR); return TOKEN_ARROW; }
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 203 "scanner/scanner.l"
+#line 228 "scanner/scanner.l"
 { guardar_token(TOKEN_QUESTION, PUNCTUATOR); return TOKEN_QUESTION; }
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 204 "scanner/scanner.l"
+#line 229 "scanner/scanner.l"
 { guardar_token(TOKEN_DOUBLE_COLON, PUNCTUATOR); return TOKEN_DOUBLE_COLON; }
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 205 "scanner/scanner.l"
+#line 230 "scanner/scanner.l"
 { guardar_token(TOKEN_COLON, PUNCTUATOR); return TOKEN_COLON; }
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
-#line 206 "scanner/scanner.l"
+#line 231 "scanner/scanner.l"
 { guardar_token(TOKEN_ELLIPSIS, PUNCTUATOR); return TOKEN_ELLIPSIS; }
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 207 "scanner/scanner.l"
+#line 232 "scanner/scanner.l"
 { guardar_token(TOKEN_PERIOD, PUNCTUATOR); return TOKEN_PERIOD; }
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 208 "scanner/scanner.l"
+#line 233 "scanner/scanner.l"
 { guardar_token(TOKEN_COMMA, PUNCTUATOR); return TOKEN_COMMA; }
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 209 "scanner/scanner.l"
+#line 234 "scanner/scanner.l"
 { guardar_token(TOKEN_SEMICOLON, PUNCTUATOR); return TOKEN_SEMICOLON; }
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
-#line 210 "scanner/scanner.l"
+#line 235 "scanner/scanner.l"
 { guardar_token(TOKEN_DOUBLE_HASH, PUNCTUATOR); return TOKEN_DOUBLE_HASH; }
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
-#line 211 "scanner/scanner.l"
+#line 236 "scanner/scanner.l"
 { guardar_token(TOKEN_HASH, PUNCTUATOR); return TOKEN_HASH; }
 	YY_BREAK
 /* Digraphs: devuelven el mismo token que el puntuador equivalente. */
 case 122:
 YY_RULE_SETUP
-#line 214 "scanner/scanner.l"
+#line 239 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_CURLY, PUNCTUATOR); return TOKEN_LEFT_CURLY; }
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 215 "scanner/scanner.l"
+#line 240 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_CURLY, PUNCTUATOR); return TOKEN_RIGHT_CURLY; }
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 216 "scanner/scanner.l"
+#line 241 "scanner/scanner.l"
 { guardar_token(TOKEN_LEFT_SQUARE, PUNCTUATOR); return TOKEN_LEFT_SQUARE; }
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 217 "scanner/scanner.l"
+#line 242 "scanner/scanner.l"
 { guardar_token(TOKEN_RIGHT_SQUARE, PUNCTUATOR); return TOKEN_RIGHT_SQUARE; }
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 218 "scanner/scanner.l"
+#line 243 "scanner/scanner.l"
 { guardar_token(TOKEN_DOUBLE_HASH, PUNCTUATOR); return TOKEN_DOUBLE_HASH; }
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 219 "scanner/scanner.l"
+#line 244 "scanner/scanner.l"
 { guardar_token(TOKEN_HASH, PUNCTUATOR); return TOKEN_HASH; }
 	YY_BREAK
 case 128:
 /* rule 128 can match eol */
 YY_RULE_SETUP
-#line 221 "scanner/scanner.l"
+#line 246 "scanner/scanner.l"
 { /* Ignorar espacios y saltos de línea. */ }
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 223 "scanner/scanner.l"
+#line 248 "scanner/scanner.l"
 {
     guardar_token(TOKEN_LEXICAL_ERROR, ERROR);
     return TOKEN_LEXICAL_ERROR;
@@ -2014,10 +2039,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 228 "scanner/scanner.l"
+#line 253 "scanner/scanner.l"
 ECHO;
 	YY_BREAK
-#line 2021 "scanner/scanner.c"
+#line 2046 "scanner/scanner.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -3036,5 +3061,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 228 "scanner/scanner.l"
+#line 253 "scanner/scanner.l"
 

@@ -4,6 +4,31 @@
 #include <string.h>
 #include <unistd.h>
 #include "tokenizer.h"
+#include "../parser/location.h"
+
+int current_column = 1;
+int current_line = 1;
+
+// to update the locations in the parser
+static void update_location(void) {
+    yylloc.first_line = current_line;
+    yylloc.first_column = current_column;
+
+    for (int i = 0; i < yyleng; i++) {
+        if (yytext[i] == '\n') {
+            current_line++;
+            current_column = 1;
+        } else {
+            current_column++;
+        }
+    }
+
+    yylloc.last_line = current_line;
+    yylloc.last_column = current_column - 1;
+}
+
+#define YY_USER_ACTION update_location();
+
 %}
 
 %option yylineno

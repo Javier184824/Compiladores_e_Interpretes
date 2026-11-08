@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "location.h"
 
 int yylex(void);
 void yyerror(const char *s);
@@ -8,8 +9,8 @@ extern int yylineno;
 %}
 
 %define parse.trace
-
 %define parse.error verbose
+%locations
 
 %token TOKEN_ID 63
 %token TOKEN_INTEGER 64
@@ -246,6 +247,7 @@ constant_expression
 declaration
         : declaration_specifiers TOKEN_SEMICOLON
         | declaration_specifiers init_declarator_list TOKEN_SEMICOLON
+        | error TOKEN_SEMICOLON { yyerrok; }
         ;
 
 declaration_specifiers
@@ -467,6 +469,7 @@ statement_list
 expression_statement
         : TOKEN_SEMICOLON
         | expression TOKEN_SEMICOLON
+        | error TOKEN_SEMICOLON { yyerrok; }
         ;
 
 selection_statement
@@ -509,5 +512,8 @@ function_definition
 
 %%
 void yyerror(const char *s) {
-    fprintf(stderr, "Syntax Error at line %d: %s\n", yylineno, s);
+    fprintf(stderr, "Error in line %d:%d %s\n",
+        yylloc.first_line,
+        yylloc.first_column,
+        s);
 }

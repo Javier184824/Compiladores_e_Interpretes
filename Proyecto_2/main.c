@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    yydebug = 1;
+    yydebug = 0;
     
     yyin = source_fptr;
 
