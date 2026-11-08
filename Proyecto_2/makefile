@@ -1,4 +1,4 @@
-PARSER_C_&_H_FILES = $(wildcard parser/*.c parser/*.h)
+PARSER_C_&_H_FILES = $(wildcard parser/parser*.c parser/parser*.h)
 SCANNER_C_FILES = $(wildcard scanner/scanner*.c)
 PREPROCESSOR_C_FILES = $(wildcard preprocessors/*.c)
 
