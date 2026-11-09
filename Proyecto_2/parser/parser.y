@@ -47,6 +47,19 @@ extern int yylineno;
 %token TOKEN_AUTO 7
 %token TOKEN_REGISTER 25
 
+%token TOKEN_INLINE 41
+%token TOKEN_RESTRICT 42
+%token TOKEN_BOOL_KEYWORD 43
+%token TOKEN_COMPLEX 44
+
+%token TOKEN_ALIGNAS 46
+%token TOKEN_ALIGNOF 47
+%token TOKEN_ATOMIC 48
+%token TOKEN_GENERIC 49
+%token TOKEN_NORETURN 50
+%token TOKEN_STATIC_ASSERT 51
+%token TOKEN_THREAD_LOCAL 52
+
 %token TOKEN_CHAR_KEYWORD 10
 %token TOKEN_SHORT 27
 %token TOKEN_INT_KEYWORD 23
@@ -110,12 +123,42 @@ primary_expression
         | TOKEN_INTEGER
         | TOKEN_FLOAT
         | TOKEN_CHARACTER
-        | TOKEN_STRING
+        | str_sequence
         | TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN
+        | generic_selection
         ;
+
+str_sequence
+        :TOKEN_STRING
+        |TOKEN_STRING str_sequence
+        ;
+
+static_assert_declaration
+    : TOKEN_STATIC_ASSERT TOKEN_LEFT_PAREN
+      constant_expression TOKEN_COMMA string_sequence
+      TOKEN_RIGHT_PAREN TOKEN_SEMICOLON
+    ;
+
+generic_selection
+    : TOKEN_GENERIC TOKEN_LEFT_PAREN
+      assignment_expression TOKEN_COMMA
+      generic_assoc_list TOKEN_RIGHT_PAREN
+    ;
+
+generic_assoc_list
+    : generic_association
+    | generic_assoc_list TOKEN_COMMA generic_association
+    ;
+
+generic_association
+    : type_name TOKEN_COLON assignment_expression
+    | TOKEN_DEFAULT TOKEN_COLON assignment_expression
+    ;
 
 postfix_expression
         : primary_expression
+        | TOKEN_LEFT_PAREN type_name TOKEN_RIGHT_PAREN TOKEN_LEFT_CURLY initializer_list TOKEN_RIGHT_CURLY
+        | TOKEN_LEFT_PAREN type_name TOKEN_RIGHT_PAREN TOKEN_LEFT_CURLY initializer_list TOKEN_COMMA TOKEN_RIGHT_CURLY
         | postfix_expression TOKEN_LEFT_SQUARE expression TOKEN_RIGHT_SQUARE
         | postfix_expression TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
         | postfix_expression TOKEN_LEFT_PAREN argument_expression_list TOKEN_RIGHT_PAREN
@@ -137,6 +180,7 @@ unary_expression
         | unary_operator cast_expression
         | TOKEN_SIZEOF unary_expression
         | TOKEN_SIZEOF TOKEN_LEFT_PAREN type_name TOKEN_RIGHT_PAREN
+        | TOKEN_ALIGNOF TOKEN_LEFT_PAREN type_name TOKEN_RIGHT_PAREN
         ;
 
 unary_operator
@@ -248,6 +292,7 @@ declaration
         : declaration_specifiers TOKEN_SEMICOLON
         | declaration_specifiers init_declarator_list TOKEN_SEMICOLON
         | error TOKEN_SEMICOLON { yyerrok; }
+        | static_assert_declaration
         ;
 
 declaration_specifiers
@@ -257,6 +302,10 @@ declaration_specifiers
         | type_specifier declaration_specifiers
         | type_qualifier
         | type_qualifier declaration_specifiers
+        | function_specifier
+        | function_specifier declaration_specifiers
+        | alignment_specifier
+        | alignment_specifier declaration_specifiers
         ;
 
 init_declarator_list
@@ -275,6 +324,7 @@ storage_class_specifier
         | TOKEN_STATIC
         | TOKEN_AUTO
         | TOKEN_REGISTER
+        | TOKEN_THREAD_LOCAL
         ;
 
 type_specifier
@@ -287,10 +337,23 @@ type_specifier
         | TOKEN_DOUBLE_KEYWORD
         | TOKEN_SIGNED
         | TOKEN_UNSIGNED
+        | TOKEN_BOOL_KEYWORD
+        | TOKEN_COMPLEX
+        | atomic_type_specifier
         | struct_or_union_specifier
         | enum_specifier
         /*| TYPE_NAME */
         ;
+
+alignment_specifier
+    : TOKEN_ALIGNAS TOKEN_LEFT_PAREN type_name TOKEN_RIGHT_PAREN
+    | TOKEN_ALIGNAS TOKEN_LEFT_PAREN constant_expression TOKEN_RIGHT_PAREN
+    ;
+
+function_specifier
+    : TOKEN_INLINE
+    | TOKEN_NORETURN
+    ;
 
 struct_or_union_specifier
         : struct_or_union TOKEN_ID TOKEN_LEFT_CURLY struct_declaration_list TOKEN_RIGHT_CURLY
@@ -310,6 +373,8 @@ struct_declaration_list
 
 struct_declaration
         : specifier_qualifier_list struct_declarator_list TOKEN_SEMICOLON
+        | static_assert_declaration
+        | specifier_qualifier_list TOKEN_SEMICOLON
         ;
 
 specifier_qualifier_list
@@ -332,6 +397,8 @@ struct_declarator
 
 enum_specifier
         : TOKEN_ENUM TOKEN_LEFT_CURLY enumerator_list TOKEN_RIGHT_CURLY
+        | TOKEN_ENUM TOKEN_LEFT_CURLY enumerator_list TOKEN_COMMA TOKEN_RIGHT_CURLY
+        | TOKEN_ENUM TOKEN_ID TOKEN_LEFT_CURLY enumerator_list TOKEN_COMMA TOKEN_RIGHT_CURLY
         | TOKEN_ENUM TOKEN_ID TOKEN_LEFT_CURLY enumerator_list TOKEN_RIGHT_CURLY
         | TOKEN_ENUM TOKEN_ID
         ;
@@ -349,7 +416,13 @@ enumerator
 type_qualifier
         : TOKEN_CONST
         | TOKEN_VOLATILE
+        | TOKEN_RESTRICT
+        | TOKEN_ATOMIC
         ;
+
+atomic_type_specifier
+    : TOKEN_ATOMIC TOKEN_LEFT_PAREN type_name TOKEN_RIGHT_PAREN
+    ;
 
 declarator
         : pointer direct_declarator
@@ -357,14 +430,14 @@ declarator
         ;
 
 direct_declarator
-        : TOKEN_ID
-        | TOKEN_LEFT_PAREN declarator TOKEN_RIGHT_PAREN
-        | direct_declarator TOKEN_LEFT_SQUARE constant_expression TOKEN_RIGHT_SQUARE
-        | direct_declarator TOKEN_LEFT_SQUARE TOKEN_RIGHT_SQUARE
-        | direct_declarator TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
-        | direct_declarator TOKEN_LEFT_PAREN identifier_list TOKEN_RIGHT_PAREN
-        | direct_declarator TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
-        ;
+    : TOKEN_ID
+    | TOKEN_LEFT_PAREN declarator TOKEN_RIGHT_PAREN
+    | direct_declarator array_suffix
+    | direct_declarator TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
+    | direct_declarator TOKEN_LEFT_PAREN identifier_list TOKEN_RIGHT_PAREN
+    | direct_declarator TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
+    ;
+
 
 pointer
         : TOKEN_MULT
@@ -412,16 +485,32 @@ abstract_declarator
         ;
 
 direct_abstract_declarator
-        : TOKEN_LEFT_PAREN abstract_declarator TOKEN_RIGHT_PAREN
-        | TOKEN_LEFT_SQUARE TOKEN_RIGHT_SQUARE
-        | TOKEN_LEFT_SQUARE constant_expression TOKEN_RIGHT_SQUARE
-        | direct_abstract_declarator TOKEN_LEFT_SQUARE TOKEN_RIGHT_SQUARE
-        | direct_abstract_declarator TOKEN_LEFT_SQUARE constant_expression TOKEN_RIGHT_SQUARE
-        | TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
-        | TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
-        | direct_abstract_declarator TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
-        | direct_abstract_declarator TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
-        ;
+    : TOKEN_LEFT_PAREN abstract_declarator TOKEN_RIGHT_PAREN
+    | array_suffix
+    | direct_abstract_declarator array_suffix
+    | TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
+    | TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
+    | direct_abstract_declarator TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
+    | direct_abstract_declarator TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
+    ;
+
+
+array_suffix
+    : TOKEN_LEFT_SQUARE type_qualifier_list_opt assignment_expression_opt TOKEN_RIGHT_SQUARE
+    | TOKEN_LEFT_SQUARE TOKEN_STATIC type_qualifier_list_opt assignment_expression TOKEN_RIGHT_SQUARE
+    | TOKEN_LEFT_SQUARE type_qualifier_list TOKEN_STATIC assignment_expression TOKEN_RIGHT_SQUARE
+    | TOKEN_LEFT_SQUARE type_qualifier_list_opt TOKEN_MULT TOKEN_RIGHT_SQUARE
+    ;
+
+type_qualifier_list_opt
+    : %empty
+    | type_qualifier_list
+    ;
+
+assignment_expression_opt
+    : %empty
+    | assignment_expression
+    ;
 
 initializer
         : assignment_expression
@@ -430,9 +519,25 @@ initializer
         ;
 
 initializer_list
-        : initializer
-        | initializer_list TOKEN_COMMA initializer
-        ;
+    : initializer
+    | designation initializer
+    | initializer_list TOKEN_COMMA initializer
+    | initializer_list TOKEN_COMMA designation initializer
+    ;
+
+designation
+    : designator_list TOKEN_ASSIGN
+    ;
+
+designator_list
+    : designator
+    | designator_list designator
+    ;
+
+designator
+    : TOKEN_LEFT_SQUARE constant_expression TOKEN_RIGHT_SQUARE
+    | TOKEN_PERIOD TOKEN_ID
+    ;
 
 statement
         : labeled_statement
@@ -450,11 +555,19 @@ labeled_statement
         ;
 
 compound_statement
-        : TOKEN_LEFT_CURLY TOKEN_RIGHT_CURLY
-        | TOKEN_LEFT_CURLY statement_list TOKEN_RIGHT_CURLY
-        | TOKEN_LEFT_CURLY declaration_list TOKEN_RIGHT_CURLY
-        | TOKEN_LEFT_CURLY declaration_list statement_list TOKEN_RIGHT_CURLY
-        ;
+    : TOKEN_LEFT_CURLY TOKEN_RIGHT_CURLY
+    | TOKEN_LEFT_CURLY block_item_list TOKEN_RIGHT_CURLY
+    ;
+
+block_item_list
+    : block_item
+    | block_item_list block_item
+    ;
+
+block_item
+    : declaration
+    | statement
+    ;
 
 declaration_list
         : declaration
@@ -481,6 +594,8 @@ selection_statement
 iteration_statement
         : TOKEN_WHILE TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN statement
         | TOKEN_DO statement TOKEN_WHILE TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN TOKEN_SEMICOLON
+        | TOKEN_FOR TOKEN_LEFT_PAREN declaration expression_statement TOKEN_RIGHT_PAREN statement
+        | TOKEN_FOR TOKEN_LEFT_PAREN declaration expression_statement expression TOKEN_RIGHT_PAREN statement
         | TOKEN_FOR TOKEN_LEFT_PAREN expression_statement expression_statement TOKEN_RIGHT_PAREN statement
         | TOKEN_FOR TOKEN_LEFT_PAREN expression_statement expression_statement expression TOKEN_RIGHT_PAREN statement
         ;

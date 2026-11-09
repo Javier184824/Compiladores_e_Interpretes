@@ -43,7 +43,10 @@ DIGITOS_HEX         {HEXDIGITO}([']?{HEXDIGITO})*
 DIGITOS_OCT         {OCTDIGITO}([']?{OCTDIGITO})*
 DIGITOS_BIN         {BINDIGITO}([']?{BINDIGITO})*
 LETRA               [a-zA-Z_]
-ID                  {LETRA}({LETRA}|{DIGITO})*
+UCN                 (\\u{HEXDIGITO}{4}|\\U{HEXDIGITO}{8})
+INICIO_ID           ([a-zA-Z_]|{UCN})
+CONTINUACION_ID     ([a-zA-Z_0-9]|{UCN})
+ID                  {INICIO_ID}{CONTINUACION_ID}*
 
 /* Entero */
 SUFIJO_LONG         ([lL]|ll|LL)
