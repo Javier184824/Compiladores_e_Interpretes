@@ -1,18 +1,25 @@
 %{
 #include <stdio.h>
 #include "location.h"
+#include "typedef_support.h"
 
 int yylex(void);
 void yyerror(const char *s);
 
 extern int yylineno; 
 %}
+%code requires {
+    #include "typedef_support.h"
+}
+
+%define api.value.type {ParserValue}
 
 %define parse.trace
 %define parse.error verbose
 %locations
 
-%token TOKEN_ID 63
+%token <text> TOKEN_ID 63
+%token <text> TOKEN_TYPE_NAME 300
 %token TOKEN_INTEGER 64
 %token TOKEN_FLOAT 65
 %token TOKEN_CHARACTER 66
@@ -114,8 +121,17 @@ extern int yylineno;
 %token TOKEN_LESS 84
 %token TOKEN_GREATER 85
 %token TOKEN_ASSIGN 88
+%type <text> declarator direct_declarator
 
+%type <is_typedef> declaration_specifiers
+%type <is_typedef> storage_class_specifier
+
+%type <names> init_declarator init_declarator_list
+
+%destructor { free_name_list($$); } <names>
 %start translation_unit
+
+
 %%
 
 primary_expression
@@ -290,42 +306,42 @@ constant_expression
 
 declaration
         : declaration_specifiers TOKEN_SEMICOLON
-        | declaration_specifiers init_declarator_list TOKEN_SEMICOLON
+        | declaration_specifiers init_declarator_list TOKEN_SEMICOLON { finish_declaration($1, $2); }
         | error TOKEN_SEMICOLON { yyerrok; }
         | static_assert_declaration
         ;
 
 declaration_specifiers
-        : storage_class_specifier
-        | storage_class_specifier declaration_specifiers
-        | type_specifier
-        | type_specifier declaration_specifiers
-        | type_qualifier
-        | type_qualifier declaration_specifiers
-        | function_specifier
-        | function_specifier declaration_specifiers
-        | alignment_specifier
-        | alignment_specifier declaration_specifiers
-        ;
+    : storage_class_specifier { $$ = $1; }
+    | storage_class_specifier declaration_specifiers { $$ = $1 || $2; }
+    | type_specifier { $$ = 0; }
+    | type_specifier declaration_specifiers { $$ = $2; }
+    | type_qualifier { $$ = 0; }
+    | type_qualifier declaration_specifiers { $$ = $2; }
+    | function_specifier { $$ = 0; }
+    | function_specifier declaration_specifiers { $$ = $2; }
+    | alignment_specifier { $$ = 0; }
+    | alignment_specifier declaration_specifiers { $$ = $2; }
+    ;
 
 init_declarator_list
-        : init_declarator
-        | init_declarator_list TOKEN_COMMA init_declarator
-        ;
+    : init_declarator { $$ = $1; }
+    | init_declarator_list TOKEN_COMMA init_declarator { $$ = join_name_lists($1, $3); }
+    ;
 
 init_declarator
-        : declarator
-        | declarator TOKEN_ASSIGN initializer
-        ;
+    : declarator { $$ = make_name_list($1); }
+    | declarator TOKEN_ASSIGN initializer { $$ = make_name_list($1); }
+    ;
 
 storage_class_specifier
-        : TOKEN_TYPEDEF
-        | TOKEN_EXTERN
-        | TOKEN_STATIC
-        | TOKEN_AUTO
-        | TOKEN_REGISTER
-        | TOKEN_THREAD_LOCAL
-        ;
+    : TOKEN_TYPEDEF      { $$ = 1; }
+    | TOKEN_EXTERN       { $$ = 0; }
+    | TOKEN_STATIC       { $$ = 0; }
+    | TOKEN_AUTO         { $$ = 0; }
+    | TOKEN_REGISTER     { $$ = 0; }
+    | TOKEN_THREAD_LOCAL { $$ = 0; }
+    ;
 
 type_specifier
         : TOKEN_VOID
@@ -342,7 +358,7 @@ type_specifier
         | atomic_type_specifier
         | struct_or_union_specifier
         | enum_specifier
-        /*| TYPE_NAME */
+        | TOKEN_TYPE_NAME
         ;
 
 alignment_specifier
@@ -425,17 +441,17 @@ atomic_type_specifier
     ;
 
 declarator
-        : pointer direct_declarator
-        | direct_declarator
-        ;
+    : pointer direct_declarator { $$ = $2; }
+    | direct_declarator { $$ = $1; }
+    ;
 
 direct_declarator
-    : TOKEN_ID
-    | TOKEN_LEFT_PAREN declarator TOKEN_RIGHT_PAREN
-    | direct_declarator array_suffix
-    | direct_declarator TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN
-    | direct_declarator TOKEN_LEFT_PAREN identifier_list TOKEN_RIGHT_PAREN
-    | direct_declarator TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN
+    : TOKEN_ID { $$ = $1; }
+    | TOKEN_LEFT_PAREN declarator TOKEN_RIGHT_PAREN { $$ = $2; }
+    | direct_declarator array_suffix { $$ = $1; }
+    | direct_declarator TOKEN_LEFT_PAREN parameter_type_list TOKEN_RIGHT_PAREN { $$ = $1; }
+    | direct_declarator TOKEN_LEFT_PAREN identifier_list TOKEN_RIGHT_PAREN { $$ = $1; }
+    | direct_declarator TOKEN_LEFT_PAREN TOKEN_RIGHT_PAREN { $$ = $1; }
     ;
 
 

@@ -29,7 +29,7 @@ test: scanner/scanner_test.c parser/parser_test.c
 	gcc -o test main.c scanner/scanner_test.c parser/parser_test.c
 
 main: scanner/scanner.c parser/parser.c
-	gcc -o main main.c scanner/tokenizer.c scanner/scanner.c parser/parser.c
+	gcc -o main main.c scanner/tokenizer.c scanner/scanner.c parser/parser.c parser/typedef_support.c
 
 preprocessor:
 	gcc -o preprocessor main.c $(PREPROCESSOR_C_FILES)

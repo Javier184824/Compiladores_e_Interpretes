@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "parser/typedef_support.h"
 
 int yyparse();  // Uncomment this if using the command: make main
 
@@ -23,5 +24,10 @@ int main(int argc, char *argv[]) {
     
     yyin = source_fptr;
 
-    return yyparse(); // Uncomment this if using the command: make main
+    int resultado = yyparse();// Uncomment this if using the command: make main
+
+    free_typedef_support();
+    fclose(source_fptr);
+
+    return resultado;
 }

@@ -134,7 +134,8 @@ typedef enum {
     TOKEN_HASH,
     TOKEN_DOUBLE_HASH,
 
-    TOKEN_LEXICAL_ERROR
+    TOKEN_LEXICAL_ERROR,
+    TOKEN_TYPE_NAME = 300
 } TokenCode;
 
 typedef enum {

@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include "tokenizer.h"
 #include "../parser/location.h"
+#include "../parser/typedef_support.h"
 
 int current_column = 1;
 int current_line = 1;
@@ -183,7 +184,16 @@ MULTILINE_COMMENT   "/*"([^*]|\*+[^*/])*\*+"/"
 
 {CARACTER}      { guardar_token(TOKEN_CHARACTER, LITERAL); return TOKEN_CHARACTER; }
 {STRING}        { guardar_token(TOKEN_STRING, STRING); return TOKEN_STRING; }
-{ID}            { guardar_token(TOKEN_ID, IDENTIFIER); return TOKEN_ID; }
+{ID} {
+    int codigo = is_typedef_name(yytext)
+        ? TOKEN_TYPE_NAME
+        : TOKEN_ID;
+
+    yylval.text = save_identifier(yytext);
+
+    guardar_token(codigo, IDENTIFIER);
+    return codigo;
+}
 
     /* Operadores */
 "&&"            { guardar_token(TOKEN_LOGICAL_AND, OPERATOR); return TOKEN_LOGICAL_AND; }
