@@ -24,6 +24,7 @@ int remove_comments(const char *source_file_path, const char *output_file_path) 
                     current_char = fgetc(source_fptr);
                 } 
                 while (current_char != '\n' && current_char != EOF);
+                fputc(current_char, output_fptr);
             }
             else if (current_char == '*') {
                 do {

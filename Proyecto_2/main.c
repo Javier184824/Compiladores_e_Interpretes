@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "parser/typedef_support.h"
+#include "preprocessors/comment_remover.h"
+
+#define OUTPUT_FILE_NO_COMMENTS "output_no_comments"
 
 int yyparse();  // Uncomment this if using the command: make main
 
@@ -14,7 +17,12 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "The program needs at least one argument to work correctly\n");
         return EXIT_FAILURE;
     }
-    FILE *source_fptr = fopen(argv[1], "r");
+
+    if (remove_comments(argv[1], OUTPUT_FILE_NO_COMMENTS)) {
+        return EXIT_FAILURE;
+    }
+    
+    FILE *source_fptr = fopen(OUTPUT_FILE_NO_COMMENTS, "r");
     if (source_fptr == NULL) {
         fprintf(stderr, "Error opening the source file\n");
         return EXIT_FAILURE;
