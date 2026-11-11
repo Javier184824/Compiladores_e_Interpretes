@@ -15,7 +15,8 @@ extern int yylineno;
 %define api.value.type {ParserValue}
 
 %define parse.trace
-%define parse.error verbose
+%define parse.error detailed
+%define parse.lac full
 %locations
 
 %token <text> TOKEN_ID 63
@@ -307,7 +308,7 @@ constant_expression
 declaration
         : declaration_specifiers TOKEN_SEMICOLON
         | declaration_specifiers init_declarator_list TOKEN_SEMICOLON { finish_declaration($1, $2); }
-        | error TOKEN_SEMICOLON { yyerrok; }
+        | error TOKEN_SEMICOLON { /* very important one */ yyerrok; }
         | static_assert_declaration
         ;
 
@@ -391,6 +392,7 @@ struct_declaration
         : specifier_qualifier_list struct_declarator_list TOKEN_SEMICOLON
         | static_assert_declaration
         | specifier_qualifier_list TOKEN_SEMICOLON
+        | error TOKEN_SEMICOLON { yyerrok; }
         ;
 
 specifier_qualifier_list
@@ -562,6 +564,7 @@ statement
         | selection_statement
         | iteration_statement
         | jump_statement
+        | error TOKEN_SEMICOLON { yyerrok; }
         ;
 
 labeled_statement
@@ -598,7 +601,6 @@ statement_list
 expression_statement
         : TOKEN_SEMICOLON
         | expression TOKEN_SEMICOLON
-        | error TOKEN_SEMICOLON { yyerrok; }
         ;
 
 selection_statement
@@ -634,12 +636,21 @@ external_declaration
         | declaration
         ;
 
+
 function_definition
         : declaration_specifiers declarator declaration_list compound_statement
         | declaration_specifiers declarator compound_statement
         | declarator declaration_list compound_statement
         | declarator compound_statement
         ;
+
+/*
+function_definition
+        : declaration_specifiers declarator compound_statement
+        | declarator compound_statement
+        ;
+*/        
+
 
 %%
 void yyerror(const char *s) {

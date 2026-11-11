@@ -1,7 +1,10 @@
+int x = ;
+
 int main() {
-    int x;
-    x = + 2 ;
-    x = 5 + ;
-    x = ;
-    return 0;
+
+    while (x = 1) {
+
+        x=2;
+    }
+
 }

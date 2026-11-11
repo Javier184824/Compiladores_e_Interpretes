@@ -15,8 +15,18 @@ struct Persona {
     int edad
 }
 
+int x
+
+int;
+
+int{};
+
+x = 2;
+
+
 // Prototipo de funcion con parametros invalidos
 void calcular_promedio(int a, float b, );
+
 
 // Funcion principal con multiples errores
 int main(void) {
