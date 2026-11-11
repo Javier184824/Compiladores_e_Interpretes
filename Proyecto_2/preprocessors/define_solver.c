@@ -578,4 +578,4 @@ int solve_defines(const char *source_file_path, const char *output_file_path) {
 
     return 1;
 }
-#endif 0
+#endif

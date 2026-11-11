@@ -151,7 +151,7 @@ str_sequence
 
 static_assert_declaration
     : TOKEN_STATIC_ASSERT TOKEN_LEFT_PAREN
-      constant_expression TOKEN_COMMA string_sequence
+      constant_expression TOKEN_COMMA str_sequence
       TOKEN_RIGHT_PAREN TOKEN_SEMICOLON
     ;
 
