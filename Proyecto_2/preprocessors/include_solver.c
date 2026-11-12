@@ -1,34 +1,3 @@
-/*
- * include_preprocessor.c
- *
- * A minimal C preprocessor that resolves #include directives.
- * It reads a source file, and whenever it finds a line of the form:
- *
- *     #include "file.h"
- *
- * it recursively inlines the contents of that file in place of the
- * directive -- and recursively resolves #include directives found
- * inside THAT file too (i.e. includes-of-includes are handled).
- * Only quoted includes ("file.h") are treated as includes to resolve;
- * angle-bracket includes (<file.h>) are left untouched in the output.
- *
- * Notes:
- *   - "file.h" includes are resolved relative to the directory of the
- *     file that contains the #include (so if a/b.h includes "c.h", it
- *     looks for a/c.h -- not the current working directory of the
- *     program).
- *   - Circular includes (A includes B includes A) are detected using
- *     an inclusion stack and reported as an error instead of recursing
- *     forever.
- *   - If an included file cannot be found, the #include line is left
- *     untouched in the output (with a warning printed to stderr)
- *     instead of aborting the whole run.
- *   - Lines are copied verbatim except for #include lines, which are
- *     replaced by the expanded contents of the included file. A marker
- *     comment is emitted around each expansion so you can see where
- *     content came from (this can be turned off, see EMIT_MARKERS).
- */
-
 #define _POSIX_C_SOURCE 200809L  /* for strdup() under strict C99 */
 
 #include "include_solver.h"
@@ -155,7 +124,7 @@ void solve_includes(const char *path, const char *output_path) {
         die("include nesting too deep (possible circular include?)");
     }
     if (already_on_stack(path)) {
-        fprintf(stderr, "error: circular include detected involving '%s'\n", path);
+        fprintf(stderr, "Error: circular include detected involving '%s'\n", path);
         fprintf(stderr, "       inclusion chain:\n");
         for (int i = 0; i < inclusion_depth; i++)
             fprintf(stderr, "         -> %s\n", inclusion_stack[i]);
@@ -166,11 +135,11 @@ void solve_includes(const char *path, const char *output_path) {
     FILE *in = fopen(path, "r");
     FILE *out = fopen(output_path, "w");
     if (!in) {
-        fprintf(stderr, "error: could not open '%s': %s\n", path, strerror(errno));
+        fprintf(stderr, "Error: could not open '%s': %s\n", path, strerror(errno));
         exit(EXIT_FAILURE);
     }
     if (!out) {
-        fprintf(stderr, "error: could not open '%s': %s\n", output_path, strerror(errno));
+        fprintf(stderr, "Error: could not open '%s': %s\n", output_path, strerror(errno));
         exit(EXIT_FAILURE);
     }
 
@@ -187,8 +156,7 @@ void solve_includes(const char *path, const char *output_path) {
         if (parse_include_line(line, filename, sizeof(filename))) {
             char *resolved = resolve_include_path(filename, current_dir);
             if (!resolved) {
-                fprintf(stderr, "warning: %s:%ld: cannot find include file '%s' "
-                                "-- leaving line as-is\n",
+                fprintf(stderr, "Warning: %s:%ld: cannot find include file '%s'\n",
                         path, lineno, filename);
                 fprintf(out, "%s\n", line);
             } else {

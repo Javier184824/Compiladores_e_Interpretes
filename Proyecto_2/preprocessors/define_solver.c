@@ -1,43 +1,3 @@
-/*
- * define_preprocessor.c
- *
- * A minimal C preprocessor that resolves *simple* #define directives,
- * i.e. plain name -> value substitutions:
- *
- *     #define PI 3.14159
- *     #define GREETING "hello"
- *     #define DEBUG          (no value -> expands to nothing, acts as a flag)
- *
- * Every occurrence of the defined name elsewhere in the file is
- * replaced by its value, and the #define line itself is removed from
- * the output (same as a real preprocessor).
- *
- * Function-like macros, e.g. #define SQUARE(x) ((x)*(x)), are NOT
- * supported. If one is found, its #define line is left untouched in
- * the output (with a warning on stderr) instead of being processed.
- *
- * #undef NAME is also supported, to remove a previous definition.
- *
- * To behave sensibly, substitution:
- *   - only replaces whole identifiers/tokens, never part of a bigger
- *     identifier (e.g. #define MAX 100 will NOT touch "MAX_SIZE")
- *   - is skipped inside "string literals", 'char literals', and
- *     // line comments / block comments, just like a real
- *     preprocessor would skip them there
- *   - is definition-order sensitive: a name only gets substituted in
- *     the text that comes AFTER its #define (matching real C
- *     semantics), and a #define's value is itself expanded against
- *     whatever is already defined at that point, so simple chains
- *     work:
- *         #define A 5
- *         #define B A      -> B expands to 5
- *
- * Not supported (by design, since only "simple" #define was asked for):
- *   - function-like macros (#define NAME(args) ...)
- *   - multi-line macros using backslash-newline continuation
- *   - #ifdef / #ifndef / #if / #else / #endif conditional compilation
- */
-
 #define _POSIX_C_SOURCE 200809L  /* for strdup() under strict C99 */
 
 #include "define_solver.h"
@@ -430,7 +390,7 @@ int solve_defines(const char *input_file, const char* output_file) {
     if (output_file) {
         f = fopen(output_file, "w");
         if (!f) {
-            fprintf(stderr, "error: could not open output file '%s'\n", output_file);
+            fprintf(stderr, "Error: could not open output file '%s'\n", output_file);
             return EXIT_FAILURE;
         }
     }

@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include "location.h"
 #include "typedef_support.h"
 
@@ -7,6 +8,7 @@ int yylex(void);
 void yyerror(const char *s);
 
 extern int yylineno; 
+extern FILE *yyin;
 %}
 %code requires {
     #include "typedef_support.h"
@@ -678,8 +680,18 @@ function_definition
 
 %%
 void yyerror(const char *s) {
-    fprintf(stderr, "Error in line %d:%d %s\n",
-        yylloc.first_line,
-        yylloc.first_column,
-        s);
+        //FILE *yyin_copy = yyin;
+        //char buffer[256];
+        //for (int i = 0; i < yylloc.first_line; i++) {
+        //        fgets(buffer, sizeof(buffer), yyin);
+        //}
+        //fprintf(stderr, "Error in line %d, character %d \n%s \n%s \n\n",
+        //        yylloc.first_line,
+        //        yylloc.first_column,
+        //        s,
+        //        buffer);
+        fprintf(stderr, "Error in line %d, character %d \n%s \n\n",
+                yylloc.first_line,
+                yylloc.first_column,
+                s);
 }
