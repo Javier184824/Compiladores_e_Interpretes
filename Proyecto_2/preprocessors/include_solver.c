@@ -201,6 +201,7 @@ void solve_includes(const char *path, const char *output_path) {
     }
 
     fclose(in);
+    fclose(out);
     free(current_dir);
     free(inclusion_stack[--inclusion_depth]);
 }

@@ -439,6 +439,8 @@ int solve_defines(const char *input_file, const char* output_file) {
 
     sb_free(&out);
     free(content);
+
+    return EXIT_SUCCESS;
 }
 
 #if 0
