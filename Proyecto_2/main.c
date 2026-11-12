@@ -44,16 +44,12 @@ int main(int argc, char *argv[]) {
     
     yyin = source_fptr;
 
-    printf("Parsing file %s\n", argv[1]);
-
     int result = yyparse();
 
     free_typedef_support();
     fclose(source_fptr);
 
     system("rm -f output_defines_solved output_includes_solved output_no_comments");
-
-    printf("End of Parsing %s\n\n", argv[1]);
 
     return result;
 }
