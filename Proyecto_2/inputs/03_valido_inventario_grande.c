@@ -1,3 +1,14 @@
+/*
+Comentario
+Comentario
+Comentario
+Comentario
+Comentario
+*/
+
+
+// Comentarario
+
 struct Producto {
     int unidades;
     int precio;
@@ -53,6 +64,19 @@ int evaluar_categoria_02(const struct Producto *productos, int cantidad) {
     }
     return total;
 }
+
+
+/*
+Comentario
+Comentario
+Comentario
+Comentario
+Comentario
+*/
+
+
+// Comentarario
+
 int evaluar_categoria_03(const struct Producto *productos, int cantidad) {
     int total = 0;
     int i;

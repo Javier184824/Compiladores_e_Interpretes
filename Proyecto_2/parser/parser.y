@@ -7,6 +7,7 @@
 
 int yylex(void);
 void yyerror(const char *s);
+char *filepath;
 
 extern int yylineno; 
 extern FILE *yyin;
@@ -702,7 +703,8 @@ void yyerror(const char *s) {
         }
         buffer_marker[current_column - 1] = '^';
 
-        fprintf(stderr, "Error in line %d, character %d, %s\n%s %s\n%s %s\n\n",
+        fprintf(stderr, "Error in file \"%s\", line %d, character %d.\nError description: %s\n%s %s\n%s %s\n\n",
+                filepath,
                 current_line,
                 current_column,
                 s,

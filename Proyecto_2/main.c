@@ -9,20 +9,23 @@
 #define OUTPUT_FILE_DEFINES_SOLVED "output_defines_solved"
 #define OUTPUT_FILE_NO_COMMENTS "output_no_comments"
 
-int yyparse(); 
+int yyparse();
 
 extern FILE *yyin;
 extern int yydebug;
+extern char *filepath;
 
 int main(int argc, char *argv[]) {
-    if (argc == 1) {
-        fprintf(stderr, "The program needs at least one argument to work correctly\n");
+    if (argc > 2) {
+        fprintf(stderr, "The program is getting more than 1 argument.\nCorrect format: ./c_parser [input_filepath]\n");
         return EXIT_FAILURE;
     }
-    else if (argc > 3) {
-        fprintf(stderr, "The program needs this format to work:\n./c_parser [input_filepath]\n\n");
+    else if (argc == 1) {
+        fprintf(stderr, "The program needs at least 1 argument to work:\nCorrect format: ./c_parser [input_filepath]\n");
         return EXIT_FAILURE;
     }
+
+    filepath = argv[1];
 
     solve_includes(argv[1], OUTPUT_FILE_INCLUDES_SOLVED);
 

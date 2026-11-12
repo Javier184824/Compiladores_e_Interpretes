@@ -1,6 +1,23 @@
+/*
+Comentario
+Comentario
+Comentario
+Comentario
+Comentario
+*/
+
+
+// Comentarario
 int sumar(int a, int b) {
     return a + b;
 }
+/*
+Comentario
+Comentario
+Comentario
+Comentario
+Comentario
+*/
 int main(void) {
     int total = ;
     int datos[5] = {1, 2, 3, 4, 5};
