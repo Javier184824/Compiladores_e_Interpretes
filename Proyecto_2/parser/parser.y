@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "location.h"
 #include "typedef_support.h"
 
@@ -676,18 +677,38 @@ function_definition
 
 %%
 void yyerror(const char *s) {
-        //FILE *yyin_copy = yyin;
-        //char buffer[256];
-        //for (int i = 0; i < yylloc.first_line; i++) {
-        //        fgets(buffer, sizeof(buffer), yyin);
-        //}
-        //fprintf(stderr, "Error in line %d, character %d \n%s \n%s \n\n",
-        //        yylloc.first_line,
-        //        yylloc.first_column,
-        //        s,
-        //        buffer);
-        fprintf(stderr, "Error in line %d, character %d %s\n",
-                yylloc.first_line,
-                yylloc.first_column,
-                s);
+        long current_offset = ftell(yyin);
+        int current_line = yylloc.first_line;
+        int current_column = yylloc.first_column;
+        int length_line_number;
+        rewind(yyin);
+
+        char buffer_line_number[32] = {0};
+        char buffer_spacing[32] = {0};
+        char buffer_line[256] = {0};
+        char buffer_marker[256] = {0};
+
+        sprintf(buffer_line_number, "%d", current_line);
+        length_line_number = strlen(buffer_line_number);
+
+        for (int i = 0; i < length_line_number; i++) {
+                buffer_spacing[i] = ' ';
+        }
+        for (int i = 0; i < current_line; i++) {
+                fgets(buffer_line, sizeof(buffer_line), yyin);
+        }
+        for (int i = 0; i < current_column - 1; i++) {
+                buffer_marker[i] = '~';
+        }
+        buffer_marker[current_column - 1] = '^';
+
+        fprintf(stderr, "Error in line %d, character %d, %s\n%s %s\n%s %s\n\n",
+                current_line,
+                current_column,
+                s,
+                buffer_line_number,
+                buffer_line,
+                buffer_spacing,
+                buffer_marker);
+        fseek(yyin, current_offset, SEEK_SET);
 }

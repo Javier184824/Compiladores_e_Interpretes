@@ -357,9 +357,6 @@ void process(const char *content, size_t len, StrBuf *out) {
                 if (has_newline) sb_append_char(out, '\n');
                 continue;
             } else if (directive == -1) {
-                fprintf(stderr,
-                        "note: directive not processed, leaving line as-is: %s\n",
-                        trim(linebuf));
                 sb_append_n(out, content + line_start, line_len);
                 if (has_newline) sb_append_char(out, '\n');
                 continue;

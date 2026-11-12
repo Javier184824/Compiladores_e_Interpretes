@@ -156,9 +156,9 @@ void solve_includes(const char *path, const char *output_path) {
         if (parse_include_line(line, filename, sizeof(filename))) {
             char *resolved = resolve_include_path(filename, current_dir);
             if (!resolved) {
-                fprintf(stderr, "Warning: %s:%ld: cannot find include file '%s'\n",
-                        path, lineno, filename);
-                fprintf(out, "%s\n", line);
+                //fprintf(stderr, "Warning: %s:%ld: cannot find include file '%s'\n",
+                //        path, lineno, filename);
+                //fprintf(out, "%s\n", line);
             } else {
                 solve_includes(resolved, output_path);  /* recursive resolution */
                 free(resolved);
