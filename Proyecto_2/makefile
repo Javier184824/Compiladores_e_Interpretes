@@ -12,7 +12,7 @@ clear:
 	output_defines_solved \
 	output_includes_solved \
 	output_no_comments \
-	main
+	c_parser
 
 # --- Actual File Generation Rules ---
 
