@@ -5,6 +5,7 @@ clear:
 	rm -f \
 	scanner/scanner.c \
 	parser/parser.c \
+	parser/parser.h \
 	main
 
 # --- Actual File Generation Rules ---
