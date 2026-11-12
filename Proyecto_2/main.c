@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     free_typedef_support();
     fclose(source_fptr);
 
-    system("rm -f output_defines_solved output_includes_solved output_no_comments");
+    //system("rm -f output_defines_solved output_includes_solved output_no_comments");
 
     return resultado;
 }

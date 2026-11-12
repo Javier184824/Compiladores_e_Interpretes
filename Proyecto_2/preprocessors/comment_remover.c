@@ -29,7 +29,10 @@ int remove_comments(const char *source_file_path, const char *output_file_path) 
             else if (current_char == '*') {
                 do {
                     current_char = fgetc(source_fptr);
-                    if (current_char == '*') {
+                    if (current_char == '\n') {
+                        fputc(current_char, output_fptr);
+                    }
+                    else if (current_char == '*') {
                         current_char = fgetc(source_fptr);
                         if (current_char == '/') {
                             break;
@@ -39,6 +42,7 @@ int remove_comments(const char *source_file_path, const char *output_file_path) 
                 while (current_char != EOF);
             }
             else {
+                fputc('/', output_fptr);
                 if (current_char != EOF) {
                     ungetc(current_char, source_fptr);
                 }

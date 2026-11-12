@@ -6,6 +6,9 @@ clear:
 	scanner/scanner.c \
 	parser/parser.c \
 	parser/parser.h \
+	output_defines_solved \
+	output_includes_solved \
+	output_no_comments \
 	main
 
 # --- Actual File Generation Rules ---
