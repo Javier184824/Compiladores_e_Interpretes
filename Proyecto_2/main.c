@@ -9,16 +9,18 @@
 #define OUTPUT_FILE_DEFINES_SOLVED "output_defines_solved"
 #define OUTPUT_FILE_NO_COMMENTS "output_no_comments"
 
-int yyparse();  // Uncomment this if using the command: make main
+int yyparse(); 
 
-extern FILE *yyin;  // Uncomment this if using the command: make main 
-extern int yydebug; // Uncomment this if using the command: make main 
-
-//int match_word(FILE *source_fptr, const char *word);  // Uncomment this if using the command: make preprocessor
+extern FILE *yyin;
+extern int yydebug;
 
 int main(int argc, char *argv[]) {
     if (argc == 1) {
         fprintf(stderr, "The program needs at least one argument to work correctly\n");
+        return EXIT_FAILURE;
+    }
+    else if (argc > 3) {
+        fprintf(stderr, "The program needs this format to work:\n./c_parser [input_filepath]\n\n");
         return EXIT_FAILURE;
     }
 
@@ -42,12 +44,16 @@ int main(int argc, char *argv[]) {
     
     yyin = source_fptr;
 
-    int resultado = yyparse();// Uncomment this if using the command: make main
+    printf("Parsing file %s\n", argv[1]);
+
+    int result = yyparse();
 
     free_typedef_support();
     fclose(source_fptr);
 
-    //system("rm -f output_defines_solved output_includes_solved output_no_comments");
+    system("rm -f output_defines_solved output_includes_solved output_no_comments");
 
-    return resultado;
+    printf("End of Parsing %s\n\n", argv[1]);
+
+    return result;
 }

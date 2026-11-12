@@ -686,7 +686,7 @@ void yyerror(const char *s) {
         //        yylloc.first_column,
         //        s,
         //        buffer);
-        fprintf(stderr, "Error in line %d, character %d \n%s \n\n",
+        fprintf(stderr, "Error in line %d, character %d %s\n",
                 yylloc.first_line,
                 yylloc.first_column,
                 s);
