@@ -17,12 +17,12 @@ scanner/scanner.c: scanner/scanner.l
 	flex -o scanner/scanner.c scanner/scanner.l
 
 parser/parser.c: parser/parser.y
-	bison -d -Wno-yacc parser/parser.y -o parser/parser.c
+	bison -d -Wno-yacc parser/parser.y -o parser/parser.c -Wcounterexamples
 
 # --- Main Executable Targets ---
 
 main: scanner/scanner.c parser/parser.c
-	gcc -o main \
+	gcc -o c_parser \
 	main.c \
 	scanner/tokenizer.c \
 	scanner/scanner.c \

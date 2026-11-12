@@ -14,6 +14,12 @@ extern FILE *yyin;
     #include "typedef_support.h"
 }
 
+%precedence ATOMIC_AS_QUALIFIER
+%precedence TOKEN_LEFT_PAREN
+
+%precedence IF_WITHOUT_ELSE
+%precedence TOKEN_ELSE
+
 %define api.value.type {ParserValue}
 
 %define parse.trace
@@ -162,11 +168,6 @@ include_manager
 define_manager
         :FUNCTION_MACRO
         |OBJECT_MACRO
-        ;
-
-comment_manager
-        :SINGLE_LINE_COMMENT
-        |MULTILINE_COMMENT
         ;
 
 str_sequence
@@ -332,7 +333,6 @@ constant_expression
 declaration
         : declaration_specifiers TOKEN_SEMICOLON
         | declaration_specifiers init_declarator_list TOKEN_SEMICOLON { finish_declaration($1, $2); }
-        | error TOKEN_SEMICOLON { /* very important one */ yyerrok; }
         | static_assert_declaration
         ;
 
@@ -459,7 +459,7 @@ type_qualifier
         : TOKEN_CONST
         | TOKEN_VOLATILE
         | TOKEN_RESTRICT
-        | TOKEN_ATOMIC
+        | TOKEN_ATOMIC %prec ATOMIC_AS_QUALIFIER
         ;
 
 atomic_type_specifier
@@ -617,18 +617,13 @@ declaration_list
         | declaration_list declaration
         ;
 
-statement_list
-        : statement
-        | statement_list statement
-        ;
-
 expression_statement
         : TOKEN_SEMICOLON
         | expression TOKEN_SEMICOLON
         ;
 
 selection_statement
-        : TOKEN_IF TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN statement
+        : TOKEN_IF TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN statement %prec IF_WITHOUT_ELSE
         | TOKEN_IF TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN statement TOKEN_ELSE statement
         | TOKEN_SWITCH TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN statement
         ;
@@ -660,6 +655,7 @@ external_declaration
         | declaration
         | include_manager 
         | define_manager 
+        | error TOKEN_SEMICOLON { yyerrok; }
         ;
 
 
