@@ -19,6 +19,13 @@ extern int yylineno;
 %define parse.lac full
 %locations
 
+%token TOKEN_SYSTEM_INCLUDE 1
+%token TOKEN_LOCAL_INCLUDE 2
+%token FUNCTION_MACRO 3
+%token OBJECT_MACRO 4
+%token SINGLE_LINE_COMMENT 5
+%token MULTILINE_COMMENT 6
+
 %token <text> TOKEN_ID 63
 %token <text> TOKEN_TYPE_NAME 300
 %token TOKEN_INTEGER 64
@@ -143,6 +150,21 @@ primary_expression
         | str_sequence
         | TOKEN_LEFT_PAREN expression TOKEN_RIGHT_PAREN
         | generic_selection
+        ;
+
+include_manager
+        :TOKEN_SYSTEM_INCLUDE
+        |TOKEN_LOCAL_INCLUDE
+        ;
+
+define_manager
+        :FUNCTION_MACRO
+        |OBJECT_MACRO
+        ;
+
+comment_manager
+        :SINGLE_LINE_COMMENT
+        |MULTILINE_COMMENT
         ;
 
 str_sequence
@@ -634,6 +656,8 @@ translation_unit
 external_declaration
         : function_definition
         | declaration
+        | include_manager 
+        | define_manager 
         ;
 
 
